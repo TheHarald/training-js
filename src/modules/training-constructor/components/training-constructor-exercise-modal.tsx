@@ -27,7 +27,7 @@ export const TrainingConstructorExerciseModal = observer(() => {
       hideCloseButton
       onClose={() => trainingConstructorStore.cancelEditing()}
       isOpen={isEditing}
-      placement="top"
+      placement="center"
     >
       <ModalContent>
         <ModalHeader>Редактирование</ModalHeader>
