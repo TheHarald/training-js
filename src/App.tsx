@@ -3,6 +3,7 @@ import { NavigationMenu } from "./modules/navigation/components/navigation-menu"
 import { TrainingConstructorModule } from "./modules/training-constructor";
 import { navigationStore } from "./modules/navigation/services/navigation-store";
 import { AppRoutes } from "./modules/navigation/services/types";
+import { BuildInfo } from "./modules/settings/BuildInfo";
 
 const App = observer(() => {
   const { tab } = navigationStore;
@@ -19,7 +20,7 @@ const App = observer(() => {
               return <TrainingConstructorModule />;
             }
             case AppRoutes.Settings: {
-              return <div>Settings</div>;
+              return <BuildInfo />;
             }
             default:
               return <div>404</div>;
