@@ -3,8 +3,9 @@ import type { TTrainingExercise } from "../../../types/types";
 export const defaultTrainingExercise: TTrainingExercise = {
   id: "",
   name: "",
-  repeats: 0,
+  repeats: 1,
   duration: 0,
+  type: "repeatable",
 };
 
 export const exerciseDurations = [

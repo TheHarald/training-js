@@ -10,8 +10,17 @@ export const TrainingConstructorExerciseList = observer(() => {
       {exercises.map((exercise) => (
         <TrainingConstructorExercise key={exercise.id} exercise={exercise} />
       ))}
-      <Button onPress={() => trainingConstructorStore.addExercise()}>
-        Добавить
+      <Button
+        color="primary"
+        onPress={() => trainingConstructorStore.addExercise()}
+      >
+        Добавить упражнение
+      </Button>
+      <Button
+        color="primary"
+        onPress={() => trainingConstructorStore.addRestExercise()}
+      >
+        Добавить отдых
       </Button>
     </div>
   );

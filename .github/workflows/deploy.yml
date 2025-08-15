@@ -20,6 +20,13 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
+      - name: Create build info JSON file
+        run: |
+          echo '{
+            "buildDate": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "buildVersion": "${GITHUB_SHA:0:7}"
+          }' > public/info.json
+
       - name: Build project
         run: npm run build
 

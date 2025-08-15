@@ -1,5 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import type { TTrainingExercise } from "../../../types/types";
+import type {
+  TTrainingExercise,
+  TTrainingExerciseType,
+} from "../../../types/types";
 import { defaultExerciseDuration, defaultTrainingExercise } from "./constants";
 
 class TrainingConstructorStore {
@@ -12,11 +15,7 @@ class TrainingConstructorStore {
   }
 
   get canConfirmEditing() {
-    return Boolean(
-      this.editingExercise.name &&
-        this.editingExercise.duration &&
-        this.editingExercise.repeats
-    );
+    return Boolean(this.editingExercise.name);
   }
 
   public editExercise(exercise: TTrainingExercise) {
@@ -29,6 +28,20 @@ class TrainingConstructorStore {
     this.editingExercise = {
       ...defaultTrainingExercise,
     };
+  }
+
+  public setExerciseType(type: TTrainingExerciseType) {
+    this.editingExercise.type = type;
+  }
+
+  public addRestExercise() {
+    this.exercises.push({
+      id: crypto.randomUUID(),
+      type: "rest",
+      duration: 60,
+      repeats: 1,
+      name: "Отдых",
+    });
   }
 
   public confirmEditing() {

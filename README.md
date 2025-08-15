@@ -1,4 +1,15 @@
+# Проект: Название вашего проекта
+
 TODO
-https://theharald.github.io/training-js/
-https://heroicons.com/
-https://www.heroui.com/
+
+## Используемые библиотеки
+
+### UI
+
+- **[Tailwind CSS](https://tailwindcss.com/)** — утилитарный CSS-фреймворк для быстрой вёрстки.
+- **[Heroicons](https://heroicons.com/)** — коллекция красивых иконок от создателей Tailwind CSS.
+- **[HeroUI](https://www.heroui.com/)** — библиотека готовых UI компонентов и шаблонов для веб-разработки.
+
+## Установка и запуск
+
+TODO

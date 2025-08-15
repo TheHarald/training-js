@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 import type { TTrainingExercise } from "../../../types/types";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { trainingConstructorStore } from "../services/training-constructor-store";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 type TProps = {
   exercise: TTrainingExercise;
@@ -11,16 +13,29 @@ type TProps = {
 export const TrainingConstructorExercise = observer<TProps>((props) => {
   const { exercise } = props;
 
+  const { name, repeats, duration, type, id } = exercise;
+
   return (
     <Card>
-      <CardHeader>{exercise.name}</CardHeader>
-      <CardBody className="flex flex-col gap-1">
-        <div>{`Количество повторений: ${exercise.repeats}`}</div>
-        <div>{`Длительность: ${exercise.duration}`}</div>
+      <CardHeader className="text-2xl font-bold py-2">{name}</CardHeader>
+      <CardBody className="flex flex-row gap-2 py-1">
+        {type === "repeatable" ? (
+          <div className="flex flex-row gap-2 text-xl font-medium items-center text-gray-400">
+            <ArrowPathIcon className="size-6" />
+            {repeats} повторений
+          </div>
+        ) : null}
+
+        {type === "timed" || type === "rest" ? (
+          <div className="flex flex-row gap-2 text-xl font-medium items-center text-gray-400">
+            <ClockIcon className="size-6" />
+            {duration} секунд
+          </div>
+        ) : null}
       </CardBody>
-      <CardFooter className=" flex flex-row gap-2 justify-end">
+      <CardFooter className=" flex flex-row gap-2 justify-end py-2">
         <Button
-          onPress={() => trainingConstructorStore.deleteExercise(exercise.id)}
+          onPress={() => trainingConstructorStore.deleteExercise(id)}
           color="danger"
           isIconOnly
         >

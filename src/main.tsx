@@ -11,7 +11,7 @@ if ("serviceWorker" in navigator) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <HeroUIProvider>
+  <HeroUIProvider className="h-full">
     <App />
   </HeroUIProvider>
 );
