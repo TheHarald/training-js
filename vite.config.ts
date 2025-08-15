@@ -15,8 +15,8 @@ export default defineConfig({
       manifest: {
         name: "Training",
         short_name: "Training",
-        start_url: "/",
-        scope: "/",
+        start_url: "/training-js/",
+        scope: "/training-js/",
         orientation: "portrait",
         description: "Приложение для плана тренировок",
         theme_color: "#ffffff",
@@ -38,6 +38,7 @@ export default defineConfig({
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,json}"], // Кэшируем ВСЁ
         runtimeCaching: [], // Не нужно кэшировать API, так как его нет
+        navigateFallback: "/training-js/index.html",
       },
     }),
   ],
