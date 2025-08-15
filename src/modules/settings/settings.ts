@@ -6,7 +6,7 @@ export const info = {
 console.log("test");
 
 try {
-  const infoPath = "info.json";
+  const infoPath = "/training-js/info.json";
   const json = await import(/* @vite-ignore */ infoPath, {
     assert: { type: "json" },
   });
