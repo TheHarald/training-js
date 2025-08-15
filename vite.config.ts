@@ -5,6 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/training-js/",
   plugins: [
     react(),
     tailwindcss(),
@@ -23,12 +24,12 @@ export default defineConfig({
         display: "standalone",
         icons: [
           {
-            src: "/192x192.png",
+            src: "/training-js/192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/512x512.png",
+            src: "/training-js/512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
