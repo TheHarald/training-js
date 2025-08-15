@@ -1,4 +1,4 @@
 {
-  "buildDate": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-  "buildVersion": "${GITHUB_SHA:0:7}"
+  "buildDate": "2025-08-15T21:46:28Z",
+  "buildVersion": "3e2215e"
 }
