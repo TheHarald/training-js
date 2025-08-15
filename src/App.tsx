@@ -1,9 +1,9 @@
-import { TrainingModule } from "./modules/training";
+import { TrainingConstructorModule } from "./modules/training-constructor";
 
 function App() {
   return (
-    <div>
-      <TrainingModule />
+    <div className="m-4 h-full">
+      <TrainingConstructorModule />
     </div>
   );
 }
