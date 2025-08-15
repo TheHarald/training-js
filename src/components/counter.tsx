@@ -24,9 +24,9 @@ export const Counter = (props: TCounterProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div className="flex flex-col gap-2">
       {label ? <div>{label}</div> : null}
-      <div className="flex flex-row gap-2 items-center justify-center">
+      <div className="flex flex-row gap-2 justify-between items-center">
         <ButtonGroup>
           <Button
             className="font-bold"
