@@ -1,7 +1,12 @@
 import { Button, Card, CardBody, CardFooter } from "@heroui/react";
 import { observer } from "mobx-react-lite";
 import type { TTrainingExercise } from "../../../types/types";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowDownCircleIcon,
+  ArrowUpCircleIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { trainingConstructorStore } from "../services/training-constructor-store";
 
 type TProps = {
@@ -28,10 +33,29 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
           </div>
         ) : null}
       </CardBody>
-      <CardFooter className=" flex flex-row gap-2 justify-end py-2">
+      <CardFooter className=" flex flex-row justify-end py-2">
+        <Button
+          onPress={() => trainingConstructorStore.moveExercise(exercise, "up")}
+          color="secondary"
+          variant="light"
+          isIconOnly
+        >
+          <ArrowUpCircleIcon className="size-6" />
+        </Button>
+        <Button
+          onPress={() =>
+            trainingConstructorStore.moveExercise(exercise, "down")
+          }
+          color="secondary"
+          variant="light"
+          isIconOnly
+        >
+          <ArrowDownCircleIcon className="size-6" />
+        </Button>
         <Button
           onPress={() => trainingConstructorStore.deleteExercise(id)}
           color="danger"
+          variant="light"
           isIconOnly
         >
           <TrashIcon className="size-6" />
@@ -39,6 +63,7 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
         <Button
           onPress={() => trainingConstructorStore.editExercise(exercise)}
           color="primary"
+          variant="light"
           isIconOnly
         >
           <PencilSquareIcon className="size-6" />

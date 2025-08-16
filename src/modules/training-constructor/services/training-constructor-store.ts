@@ -55,6 +55,32 @@ class TrainingConstructorStore {
     this.editingExercise = { ...exercise };
   }
 
+  public moveExercise(exercise: TTrainingExercise, direction: "up" | "down") {
+    const index = this.exercises.findIndex((item) => item.id === exercise.id);
+
+    if (index === -1) return;
+
+    if (direction === "up") {
+      if (index > 0) {
+        // Меняем местами текущий элемент с предыдущим
+        [this.exercises[index - 1], this.exercises[index]] = [
+          this.exercises[index],
+          this.exercises[index - 1],
+        ];
+      }
+    }
+
+    if (direction === "down") {
+      if (index < this.exercises.length - 1) {
+        // Меняем местами текущий элемент со следующим
+        [this.exercises[index], this.exercises[index + 1]] = [
+          this.exercises[index + 1],
+          this.exercises[index],
+        ];
+      }
+    }
+  }
+
   public cancelEditing() {
     this.isEditing = false;
     this.editingExercise = {
