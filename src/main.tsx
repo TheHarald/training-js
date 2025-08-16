@@ -2,7 +2,9 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { HeroUIProvider } from "@heroui/react";
+//setup
 import "./modules/settings/services/settings.ts";
+import "./dayjs.ts";
 
 // Регистрируем Service Worker
 if ("serviceWorker" in navigator) {

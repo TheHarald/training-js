@@ -3,8 +3,8 @@ import { TrainingConstructorExercise } from "./training-constructor-exercise";
 import { trainingConstructorStore } from "../services/training-constructor-store";
 import { Button, Input, ScrollShadow } from "@heroui/react";
 import {
-  Battery50Icon,
   CheckCircleIcon,
+  PauseCircleIcon,
   SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
 
@@ -33,7 +33,7 @@ export const TrainingConstructorExerciseList = observer(() => {
           color="secondary"
           onPress={() => trainingConstructorStore.addRestExercise()}
         >
-          <Battery50Icon className="size-6" />
+          <PauseCircleIcon className="size-6" />
         </Button>
         <Button
           isDisabled={!canCreateTraining}

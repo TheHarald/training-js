@@ -14,6 +14,8 @@
     "@heroui/react": "^2.8.2",
     "@tailwindcss/vite": "^4.1.12",
     "classnames": "^2.5.1",
+    "dayjs": "^1.11.13",
+    "dayjs-plugin-duration": "^0.0.1-security",
     "framer-motion": "^12.23.12",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
