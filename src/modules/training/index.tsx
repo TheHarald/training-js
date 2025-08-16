@@ -13,8 +13,9 @@ export const TrainingModule = observer(() => {
 
   return (
     <div className="flex flex-col gap-2">
+      TrainingModule
       {trainings.map((training) => (
-        <div>{training.name}</div>
+        <div key={training.id}>{training.name}</div>
       ))}
     </div>
   );

@@ -12,9 +12,8 @@ class TrainingStore {
   public getTrainings() {
     try {
       const trainings = localStorage.getItem(trainingListStorageKey);
-      if (trainings) {
-        this.trainings = JSON.parse(trainings);
-      }
+
+      this.trainings = JSON.parse(trainings || "[]");
     } catch (e) {
       console.log(e);
     }
