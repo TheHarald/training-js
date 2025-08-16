@@ -1,10 +1,8 @@
-import { Button, Card, CardBody, CardFooter, CardHeader } from "@heroui/react";
+import { Button, Card, CardBody, CardFooter } from "@heroui/react";
 import { observer } from "mobx-react-lite";
 import type { TTrainingExercise } from "../../../types/types";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { trainingConstructorStore } from "../services/training-constructor-store";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { ClockIcon } from "@heroicons/react/24/outline";
 
 type TProps = {
   exercise: TTrainingExercise;
@@ -17,19 +15,16 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
 
   return (
     <Card>
-      <CardHeader className="text-2xl font-bold py-2">{name}</CardHeader>
       <CardBody className="flex flex-row gap-2 py-1">
         {type === "repeatable" ? (
-          <div className="flex flex-row gap-2 text-xl font-medium items-center text-gray-400">
-            <ArrowPathIcon className="size-6" />
-            {repeats} повторений
+          <div className="flex flex-row gap-2 text-xl font-medium items-center">
+            {`${name}, ${repeats} повторений`}
           </div>
         ) : null}
 
         {type === "timed" || type === "rest" ? (
-          <div className="flex flex-row gap-2 text-xl font-medium items-center text-gray-400">
-            <ClockIcon className="size-6" />
-            {duration} секунд
+          <div className="flex flex-row gap-2 text-xl font-medium items-center">
+            {`${name}, ${duration} секунд`}
           </div>
         ) : null}
       </CardBody>

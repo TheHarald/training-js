@@ -1,15 +1,21 @@
-import { Button } from "@heroui/react";
 import { observer } from "mobx-react-lite";
-import { trainingStore } from "./training-store";
+import { trainingStore } from "./services/training-store";
+import { useEffect } from "react";
 
 export const TrainingModule = observer(() => {
-  const { counter } = trainingStore;
+  const { trainings } = trainingStore;
+
+  useEffect(() => {
+    trainingStore.getTrainings();
+  }, []);
+
+  console.log("test");
+
   return (
-    <div>
-      <h1>Training Module</h1>
-      <Button color="primary" onPress={() => trainingStore.increment(1)}>
-        {counter}
-      </Button>
+    <div className="flex flex-col gap-2">
+      {trainings.map((training) => (
+        <div>{training.name}</div>
+      ))}
     </div>
   );
 });

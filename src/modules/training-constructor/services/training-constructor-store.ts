@@ -2,11 +2,14 @@ import { makeAutoObservable } from "mobx";
 import type {
   TTrainingExercise,
   TTrainingExerciseType,
+  TTrainingPlan,
 } from "../../../types/types";
 import { defaultExerciseDuration, defaultTrainingExercise } from "./constants";
+import { trainingListStorageKey } from "../../../constants";
 
 class TrainingConstructorStore {
   exercises: TTrainingExercise[] = [];
+  trainingName: string = "";
   isEditing: boolean = false;
   editingExercise: TTrainingExercise = defaultTrainingExercise;
 
@@ -16,6 +19,35 @@ class TrainingConstructorStore {
 
   get canConfirmEditing() {
     return Boolean(this.editingExercise.name);
+  }
+
+  get canCreateTraining() {
+    return Boolean(this.exercises.length && this.trainingName);
+  }
+
+  public addTrainingPlan() {
+    const data = localStorage.getItem(trainingListStorageKey);
+
+    const trainings = JSON.parse(data || "[]") as TTrainingPlan[];
+
+    localStorage.setItem(
+      trainingListStorageKey,
+      JSON.stringify([
+        ...trainings,
+        {
+          name: this.trainingName,
+          exercises: this.exercises,
+          id: crypto.randomUUID(),
+        },
+      ])
+    );
+
+    this.trainingName = "";
+    this.exercises = [];
+  }
+
+  public setTrainingName(name: string) {
+    this.trainingName = name;
   }
 
   public editExercise(exercise: TTrainingExercise) {

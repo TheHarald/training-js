@@ -1,4 +1,4 @@
-import { info } from "./settings";
+import { info } from "../services/settings";
 
 export const BuildInfo = () => {
   return (

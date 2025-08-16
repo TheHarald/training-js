@@ -3,24 +3,25 @@ import { NavigationMenu } from "./modules/navigation/components/navigation-menu"
 import { TrainingConstructorModule } from "./modules/training-constructor";
 import { navigationStore } from "./modules/navigation/services/navigation-store";
 import { AppRoutes } from "./modules/navigation/services/types";
-import { BuildInfo } from "./modules/settings/BuildInfo";
+import { SettingsModule } from "./modules/settings";
+import { TrainingModule } from "./modules/training";
 
 const App = observer(() => {
   const { tab } = navigationStore;
 
   return (
-    <div className="h-full relative">
-      <div className="m-4">
+    <div className="flex flex-col relative">
+      <div className="m-2">
         {(() => {
           switch (tab) {
             case AppRoutes.Training: {
-              return <div>Training</div>;
+              return <TrainingModule />;
             }
             case AppRoutes.TrainingConstructor: {
               return <TrainingConstructorModule />;
             }
             case AppRoutes.Settings: {
-              return <BuildInfo />;
+              return <SettingsModule />;
             }
             default:
               return <div>404</div>;
