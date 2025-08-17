@@ -12,7 +12,7 @@ export const TrainingConstructorExerciseList = observer(() => {
   const { canCreateTraining, trainingPlan } = trainingConstructorStore;
   const { exercises, name } = trainingPlan;
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4 overflow-hidden">
       <div className="flex flex-row gap-2">
         <Input
           onChange={(e) =>
@@ -44,14 +44,18 @@ export const TrainingConstructorExerciseList = observer(() => {
           <CheckCircleIcon className="size-6" />
         </Button>
       </div>
-      <ScrollShadow hideScrollBar className="h-[500px]">
-        <div className="flex flex-col gap-2">
-          {exercises.map((exercise) => (
-            <TrainingConstructorExercise
-              key={exercise.id}
-              exercise={exercise}
-            />
-          ))}
+      <ScrollShadow hideScrollBar>
+        <div className="flex flex-col gap-2 min-h-full">
+          {exercises.length ? (
+            exercises.map((exercise) => (
+              <TrainingConstructorExercise
+                key={exercise.id}
+                exercise={exercise}
+              />
+            ))
+          ) : (
+            <div className="text-center self-center">Упражнений пока нет</div>
+          )}
         </div>
       </ScrollShadow>
     </div>

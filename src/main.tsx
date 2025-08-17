@@ -5,6 +5,7 @@ import { HeroUIProvider, ToastProvider } from "@heroui/react";
 //setup
 import "./modules/settings/services/settings.ts";
 import "./dayjs.ts";
+import { Test } from "./test.tsx";
 
 // Регистрируем Service Worker
 if ("serviceWorker" in navigator) {
@@ -15,6 +16,7 @@ if ("serviceWorker" in navigator) {
 
 createRoot(document.getElementById("root")!).render(
   <HeroUIProvider className="h-full">
+    {/* <Test /> */}
     <App />
     <ToastProvider />
   </HeroUIProvider>

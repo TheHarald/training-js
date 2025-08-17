@@ -13,3 +13,30 @@ html, body {
   -webkit-overflow-scrolling: auto;
   overflow: hidden;
 }
+
+
+.safe-area {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+@supports not (padding-top: env(safe-area-inset-top)) {
+  .safe-area {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .safe-bottom {
+    padding-bottom: 20px;
+  }
+  .safe-top {
+    padding-top: 20px;
+  }
+}

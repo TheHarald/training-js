@@ -12,7 +12,7 @@ export const TrainingModule = observer(() => {
   }, []);
 
   return (
-    <div className="">
+    <div className="flex-1">
       {playedTraining === undefined ? (
         <TrainingPlanItemsList />
       ) : (

@@ -13,10 +13,7 @@ export const NavigationMenu = observer(() => {
   const { tab } = navigationStore;
 
   return (
-    <div
-      style={{ paddingBottom: 38 }}
-      className="w-full bg-default bottom-0 fixed z-100500"
-    >
+    <div className="w-full bg-default safe-bottom">
       <ButtonGroup className="w-full">
         <Button
           variant="light"
