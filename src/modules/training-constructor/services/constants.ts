@@ -1,4 +1,4 @@
-import type { TTrainingExercise } from "../../../types/types";
+import type { TTrainingExercise, TTrainingPlan } from "../../../types/types";
 
 export const defaultTrainingExercise: TTrainingExercise = {
   id: "",
@@ -6,6 +6,14 @@ export const defaultTrainingExercise: TTrainingExercise = {
   repeats: 1,
   duration: 0,
   type: "repeatable",
+};
+
+export const newTrainingPlanId = "new-training-plan";
+
+export const defaultTTrainingPlan: TTrainingPlan = {
+  id: newTrainingPlanId,
+  name: "",
+  exercises: [],
 };
 
 export const exerciseDurations = [

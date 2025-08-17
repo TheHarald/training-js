@@ -1,3 +1,3 @@
 export const trainingListStorageKey = "trainingList";
 /** Среднее время одного действия упражнения */
-export const averageOneExerciseTime = 3;
+export const averageOneExerciseTime = 5;

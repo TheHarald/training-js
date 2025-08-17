@@ -9,8 +9,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 export const TrainingConstructorExerciseList = observer(() => {
-  const { exercises, canCreateTraining, trainingName } =
-    trainingConstructorStore;
+  const { canCreateTraining, trainingPlan } = trainingConstructorStore;
+  const { exercises, name } = trainingPlan;
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row gap-2">
@@ -18,7 +18,7 @@ export const TrainingConstructorExerciseList = observer(() => {
           onChange={(e) =>
             trainingConstructorStore.setTrainingName(e.target.value)
           }
-          value={trainingName}
+          value={name}
           placeholder="Введите название тренировки"
         />
         <Button

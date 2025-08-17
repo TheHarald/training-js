@@ -11,7 +11,7 @@ const App = observer(() => {
 
   return (
     <div className="flex flex-col relative">
-      <div className="m-2">
+      <div className="m-2 flex flex-col">
         {(() => {
           switch (tab) {
             case AppRoutes.Training: {

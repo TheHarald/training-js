@@ -4,14 +4,18 @@ import type {
   TTrainingExerciseType,
   TTrainingPlan,
 } from "../../../types/types";
-import { defaultExerciseDuration, defaultTrainingExercise } from "./constants";
-import { trainingListStorageKey } from "../../../constants";
+import {
+  defaultExerciseDuration,
+  defaultTrainingExercise,
+  defaultTTrainingPlan,
+  newTrainingPlanId,
+} from "./constants";
+import { trainingStorageHelper } from "../../../services/training-storage-helper";
 
 class TrainingConstructorStore {
-  exercises: TTrainingExercise[] = [];
-  trainingName: string = "";
   isEditing: boolean = false;
   editingExercise: TTrainingExercise = defaultTrainingExercise;
+  trainingPlan: TTrainingPlan = defaultTTrainingPlan;
 
   constructor() {
     makeAutoObservable(this);
@@ -22,32 +26,46 @@ class TrainingConstructorStore {
   }
 
   get canCreateTraining() {
-    return Boolean(this.exercises.length && this.trainingName);
+    return Boolean(
+      this.trainingPlan.exercises.length && this.trainingPlan.name
+    );
   }
 
   public addTrainingPlan() {
-    const data = localStorage.getItem(trainingListStorageKey);
+    const trainings = trainingStorageHelper.get() ?? [];
+    let newItems: TTrainingPlan[] = [];
 
-    const trainings = JSON.parse(data || "[]") as TTrainingPlan[];
-
-    localStorage.setItem(
-      trainingListStorageKey,
-      JSON.stringify([
+    // new
+    if (this.trainingPlan.id === newTrainingPlanId) {
+      newItems = [
         ...trainings,
         {
-          name: this.trainingName,
-          exercises: this.exercises,
+          name: this.trainingPlan.name,
+          exercises: this.trainingPlan.exercises,
           id: crypto.randomUUID(),
         },
-      ])
-    );
+      ];
+    } else {
+      newItems = trainings.map((item) => {
+        if (item.id === this.trainingPlan.id) {
+          return {
+            ...item,
+            name: this.trainingPlan.name,
+            exercises: this.trainingPlan.exercises,
+          };
+        }
 
-    this.trainingName = "";
-    this.exercises = [];
+        return item;
+      });
+    }
+
+    trainingStorageHelper.set(newItems);
+
+    this.trainingPlan = defaultTTrainingPlan;
   }
 
   public setTrainingName(name: string) {
-    this.trainingName = name;
+    this.trainingPlan.name = name;
   }
 
   public editExercise(exercise: TTrainingExercise) {
@@ -56,26 +74,34 @@ class TrainingConstructorStore {
   }
 
   public moveExercise(exercise: TTrainingExercise, direction: "up" | "down") {
-    const index = this.exercises.findIndex((item) => item.id === exercise.id);
+    const index = this.trainingPlan.exercises.findIndex(
+      (item) => item.id === exercise.id
+    );
 
     if (index === -1) return;
 
     if (direction === "up") {
       if (index > 0) {
         // Меняем местами текущий элемент с предыдущим
-        [this.exercises[index - 1], this.exercises[index]] = [
-          this.exercises[index],
-          this.exercises[index - 1],
+        [
+          this.trainingPlan.exercises[index - 1],
+          this.trainingPlan.exercises[index],
+        ] = [
+          this.trainingPlan.exercises[index],
+          this.trainingPlan.exercises[index - 1],
         ];
       }
     }
 
     if (direction === "down") {
-      if (index < this.exercises.length - 1) {
+      if (index < this.trainingPlan.exercises.length - 1) {
         // Меняем местами текущий элемент со следующим
-        [this.exercises[index], this.exercises[index + 1]] = [
-          this.exercises[index + 1],
-          this.exercises[index],
+        [
+          this.trainingPlan.exercises[index],
+          this.trainingPlan.exercises[index + 1],
+        ] = [
+          this.trainingPlan.exercises[index + 1],
+          this.trainingPlan.exercises[index],
         ];
       }
     }
@@ -93,7 +119,7 @@ class TrainingConstructorStore {
   }
 
   public addRestExercise() {
-    this.exercises.push({
+    this.trainingPlan.exercises.push({
       id: crypto.randomUUID(),
       type: "rest",
       duration: 60,
@@ -105,14 +131,14 @@ class TrainingConstructorStore {
   public confirmEditing() {
     this.isEditing = false;
 
-    const index = this.exercises.findIndex(
+    const index = this.trainingPlan.exercises.findIndex(
       (exercise) => exercise.id === this.editingExercise.id
     );
 
     if (index === -1) {
-      this.exercises.push(this.editingExercise);
+      this.trainingPlan.exercises.push(this.editingExercise);
     } else {
-      this.exercises.splice(index, 1, this.editingExercise);
+      this.trainingPlan.exercises.splice(index, 1, this.editingExercise);
     }
 
     this.editingExercise = { ...defaultTrainingExercise };
@@ -135,7 +161,6 @@ class TrainingConstructorStore {
   }
 
   public addExercise() {
-    console.log(defaultExerciseDuration);
     this.isEditing = true;
     this.editingExercise = {
       ...defaultTrainingExercise,
@@ -146,11 +171,17 @@ class TrainingConstructorStore {
   }
 
   public deleteExercise(id: string) {
-    const index = this.exercises.findIndex((exercise) => exercise.id === id);
+    const index = this.trainingPlan.exercises.findIndex(
+      (exercise) => exercise.id === id
+    );
 
     if (index === -1) return;
 
-    this.exercises.splice(index, 1);
+    this.trainingPlan.exercises.splice(index, 1);
+  }
+
+  public setTrainingPlan(training: TTrainingPlan) {
+    this.trainingPlan = { ...training };
   }
 }
 

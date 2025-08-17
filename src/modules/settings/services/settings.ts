@@ -13,7 +13,3 @@ fetch(infoPath)
   .catch((e) => {
     console.warn("Build info file not found, using default values", e);
   });
-
-// Использование
-console.log("Build version:", info.buildVersion);
-console.log("Build date:", new Date(info.buildDate).toLocaleString());
