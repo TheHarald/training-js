@@ -96,7 +96,7 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
             </DropdownMenu>
           </Dropdown>
           <Button
-            onPress={() => trainingStore.startTraining(training)}
+            onPress={() => trainingStore.selectTraining(training)}
             variant="light"
             isIconOnly
             color="primary"

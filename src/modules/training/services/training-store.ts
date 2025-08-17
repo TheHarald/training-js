@@ -3,7 +3,7 @@ import type { TTrainingPlan } from "../../../types/types";
 import { trainingConstructorStore } from "../../training-constructor/services/training-constructor-store";
 import { navigationStore } from "../../navigation/services/navigation-store";
 import { AppRoutes } from "../../navigation/services/types";
-import { trainingStorageHelper } from "../../../services/training-storage-helper";
+import { trainingStorageHelper } from "../../../helpers/training-storage-helper";
 import { addToast } from "@heroui/react";
 
 class TrainingStore {
@@ -19,6 +19,18 @@ class TrainingStore {
     return this.playedTraining?.exercises.find(
       (exercise) => exercise.id === this.currentExerciseId
     );
+  }
+
+  get progress() {
+    const index = this.playedTraining?.exercises.findIndex(
+      (exercise) => exercise.id === this.currentExerciseId
+    );
+
+    if (index === undefined || index === -1) {
+      return 0;
+    }
+
+    return index + 1;
   }
 
   get nextExercise() {
@@ -59,7 +71,7 @@ class TrainingStore {
     trainingStorageHelper.set(newItems);
   }
 
-  public startTraining(training: TTrainingPlan) {
+  public selectTraining(training: TTrainingPlan) {
     const { exercises } = training;
 
     if (exercises.length === 0) {
@@ -72,7 +84,10 @@ class TrainingStore {
     }
 
     this.playedTraining = training;
-    this.currentExerciseId = exercises[0].id;
+  }
+
+  public startTraining() {
+    this.currentExerciseId = this.playedTraining?.exercises[0].id;
   }
 
   public stopTraining() {

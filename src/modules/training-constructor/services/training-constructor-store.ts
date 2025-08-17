@@ -10,7 +10,7 @@ import {
   defaultTTrainingPlan,
   newTrainingPlanId,
 } from "./constants";
-import { trainingStorageHelper } from "../../../services/training-storage-helper";
+import { trainingStorageHelper } from "../../../helpers/training-storage-helper";
 
 class TrainingConstructorStore {
   isEditing: boolean = false;

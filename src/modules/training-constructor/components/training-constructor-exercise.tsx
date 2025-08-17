@@ -17,6 +17,8 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { trainingConstructorStore } from "../services/training-constructor-store";
+import { useMemo } from "react";
+import classNames from "classnames";
 
 type TProps = {
   exercise: TTrainingExercise;
@@ -27,20 +29,25 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
 
   const { name, repeats, duration, type, id } = exercise;
 
-  return (
-    <Card>
-      <CardBody className="flex flex-row gap-2 py-1 justify-between">
-        {type === "repeatable" ? (
-          <div className="flex flex-row gap-2 text-l font-medium items-center">
-            {`${name}, ${repeats} повторений`}
-          </div>
-        ) : null}
+  const title = useMemo(() => {
+    if (type === "repeatable") {
+      return `${name}, ${repeats} повторений`;
+    }
 
-        {type === "timed" || type === "rest" ? (
-          <div className="flex flex-row gap-2 text-l font-medium items-center">
-            {`${name}, ${duration} секунд`}
-          </div>
-        ) : null}
+    if (type === "timed" || type === "rest") {
+      return `${name}, ${duration} секунд`;
+    }
+
+    return name;
+  }, [duration, name, repeats, type]);
+
+  return (
+    <Card className={classNames({ "bg-success-50": type === "rest" })}>
+      <CardBody className="flex flex-row gap-2 py-1 justify-between">
+        <div className="flex flex-row gap-2 text-l font-medium items-center">
+          {title}
+        </div>
+
         <Dropdown>
           <DropdownTrigger>
             <Button variant="light" isIconOnly color="secondary">

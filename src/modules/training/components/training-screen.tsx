@@ -1,20 +1,22 @@
 import { observer } from "mobx-react-lite";
 import { trainingStore } from "../services/training-store";
-import { Button } from "@heroui/react";
+import { Button, Progress } from "@heroui/react";
 import { StopCircleIcon } from "@heroicons/react/24/outline";
+import { TrainingExerciseCard } from "./training-exercise-card";
 
 export const TrainingScreen = observer(() => {
-  const { playedTraining, currentExercise } = trainingStore;
+  const { playedTraining, currentExercise, progress, nextExercise } =
+    trainingStore;
 
   if (playedTraining === undefined) {
     return <div>Тренировка не выбрана</div>;
   }
 
-  const { name } = playedTraining;
+  const { name, exercises } = playedTraining;
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row  items-center justify-between">
+    <div className="flex flex-col gap-4 justify-between">
+      <div className="flex flex-row  items-center justify-between min-h-0">
         <div className="text-xl font-bold">{name}</div>
         <Button
           color="danger"
@@ -24,12 +26,37 @@ export const TrainingScreen = observer(() => {
           <StopCircleIcon className="size-6" />
         </Button>
       </div>
-      {/* TODO отображение упраднения */}
-      <div>{currentExercise?.name}</div>
-      <Button onPress={() => trainingStore.goToNextExercise()}>
-        Завершить
-      </Button>
-      <Button>Пропустить</Button>
+      <Progress
+        label={`${progress} / ${exercises.length}`}
+        className="max-w-md font-medium"
+        color="primary"
+        size="md"
+        maxValue={exercises.length}
+        value={progress}
+      />
+
+      {(() => {
+        if (currentExercise) {
+          return (
+            <>
+              <TrainingExerciseCard exercise={currentExercise} />
+              <Button
+                color="primary"
+                onPress={() => trainingStore.goToNextExercise()}
+                isDisabled={nextExercise === undefined}
+              >
+                Далее
+              </Button>
+            </>
+          );
+        }
+
+        return (
+          <Button color="primary" onPress={() => trainingStore.startTraining()}>
+            Начать
+          </Button>
+        );
+      })()}
     </div>
   );
 });
