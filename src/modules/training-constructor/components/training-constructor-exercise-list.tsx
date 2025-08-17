@@ -1,11 +1,20 @@
 import { observer } from "mobx-react-lite";
 import { TrainingConstructorExercise } from "./training-constructor-exercise";
 import { trainingConstructorStore } from "../services/training-constructor-store";
-import { Button, Input, ScrollShadow } from "@heroui/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  ScrollShadow,
+} from "@heroui/react";
 import {
   CheckCircleIcon,
-  PauseCircleIcon,
-  SquaresPlusIcon,
+  EllipsisVerticalIcon,
+  PlusCircleIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 
 export const TrainingConstructorExerciseList = observer(() => {
@@ -21,23 +30,43 @@ export const TrainingConstructorExerciseList = observer(() => {
           value={name}
           placeholder="Введите название тренировки"
         />
-        <Button
-          color="primary"
-          onPress={() => trainingConstructorStore.addExercise()}
-          isIconOnly
-        >
-          <SquaresPlusIcon className="size-6" />
-        </Button>
-        <Button
-          isIconOnly
-          color="secondary"
-          onPress={() => trainingConstructorStore.addRestExercise()}
-        >
-          <PauseCircleIcon className="size-6" />
-        </Button>
+        <Dropdown>
+          <DropdownTrigger>
+            <Button variant="light" isIconOnly color="secondary">
+              <EllipsisVerticalIcon className="size-6" />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu variant="faded">
+            <DropdownItem
+              key="add-exercise"
+              className="text-primary"
+              startContent={<PlusCircleIcon className={"size-6"} />}
+              onClick={() => trainingConstructorStore.addExercise()}
+            >
+              Добавить упражнение
+            </DropdownItem>
+            <DropdownItem
+              key="add-rest"
+              className="text-secondary"
+              startContent={<PlusCircleIcon className={"size-6"} />}
+              onClick={() => trainingConstructorStore.addRestExercise()}
+            >
+              Добавить отдых
+            </DropdownItem>
+            <DropdownItem
+              key="clear"
+              className="text-danger"
+              startContent={<TrashIcon className={"size-6"} />}
+              onClick={() => trainingConstructorStore.resetConstructor()}
+            >
+              Очистить конструктор
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <Button
           isDisabled={!canCreateTraining}
           isIconOnly
+          variant="light"
           color="success"
           onPress={() => trainingConstructorStore.addTrainingPlan()}
         >

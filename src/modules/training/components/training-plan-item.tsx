@@ -13,7 +13,7 @@ import {
 import {
   EllipsisVerticalIcon,
   FireIcon,
-  PencilIcon,
+  PencilSquareIcon,
   PlayCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
@@ -61,7 +61,7 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
             <Divider className="h-auto" orientation="vertical" />
             <div className="text-l font font-medium text-gray-400 flex flex-row gap-2 items-center">
               {exerciseCount}
-              <FireIcon className="size-4" />
+              <FireIcon className="text-orange-500 size-4" />
             </div>
           </div>
         </div>
@@ -79,7 +79,8 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
             >
               <DropdownItem
                 key="edit"
-                startContent={<PencilIcon className={"size-6"} />}
+                className="text-primary"
+                startContent={<PencilSquareIcon className={"size-6"} />}
                 onClick={() => trainingStore.editTraining(training)}
               >
                 Редактировать

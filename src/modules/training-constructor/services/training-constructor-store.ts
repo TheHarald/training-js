@@ -144,6 +144,15 @@ class TrainingConstructorStore {
     this.editingExercise = { ...defaultTrainingExercise };
   }
 
+  public resetConstructor() {
+    this.trainingPlan = {
+      ...defaultTTrainingPlan,
+    };
+    this.editingExercise = {
+      ...defaultTrainingExercise,
+    };
+  }
+
   public setExerciseName(name: string) {
     this.editingExercise.name = name;
   }
