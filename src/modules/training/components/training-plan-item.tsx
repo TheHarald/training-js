@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardBody,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -11,6 +12,7 @@ import {
 } from "@heroui/react";
 import {
   EllipsisVerticalIcon,
+  FireIcon,
   PencilIcon,
   PlayCircleIcon,
   TrashIcon,
@@ -27,12 +29,12 @@ type TrainingPlanItemProps = {
 export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
   const { training } = props;
 
-  const { name } = training;
+  const { name, exercises } = training;
 
   const duration = useMemo(() => {
     let time = 0;
 
-    for (const exercise of training.exercises) {
+    for (const exercise of exercises) {
       if (exercise.type === "repeatable") {
         time += exercise.repeats * averageOneExerciseTime;
       }
@@ -43,14 +45,25 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
     }
 
     return dayjs.duration(time, "seconds").humanize();
-  }, [training.exercises]);
+  }, [exercises]);
+
+  const exerciseCount = useMemo(() => {
+    return exercises.filter((exercise) => exercise.type !== "rest").length;
+  }, [exercises]);
 
   return (
     <Card>
       <CardBody className="flex flex-row items-center gap-2">
         <div className="flex flex-col gap-0 grow-1">
           <div className="text-l font font-medium">{name}</div>
-          <div className="text-l font font-regular text-gray-400">{`~ ${duration}`}</div>
+          <div className="flex flex-row gap-4">
+            <div className="text-l font font-regular text-gray-400">{`~ ${duration}`}</div>
+            <Divider className="h-auto" orientation="vertical" />
+            <div className="text-l font font-medium text-gray-400 flex flex-row gap-2 items-center">
+              {exerciseCount}
+              <FireIcon className="size-4" />
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-row gap-1">
@@ -81,7 +94,12 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Button variant="light" isIconOnly color="primary">
+          <Button
+            onPress={() => trainingStore.startTraining(training)}
+            variant="light"
+            isIconOnly
+            color="primary"
+          >
             <PlayCircleIcon className="size-6" />
           </Button>
         </div>

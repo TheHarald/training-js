@@ -1,7 +1,7 @@
 import {
   Cog6ToothIcon,
-  HeartIcon,
-  WrenchScrewdriverIcon,
+  PencilSquareIcon,
+  TrophyIcon,
 } from "@heroicons/react/24/outline";
 import { Button, ButtonGroup } from "@heroui/react";
 import { observer } from "mobx-react-lite";
@@ -24,7 +24,7 @@ export const NavigationMenu = observer(() => {
           radius="none"
           onPress={() => navigationStore.setTab(AppRoutes.Training)}
         >
-          <HeartIcon
+          <TrophyIcon
             className={classNames("size-6", {
               "text-primary": tab === AppRoutes.Training,
             })}
@@ -36,7 +36,7 @@ export const NavigationMenu = observer(() => {
           fullWidth
           radius="none"
         >
-          <WrenchScrewdriverIcon
+          <PencilSquareIcon
             className={classNames("size-6", {
               "text-primary": tab === AppRoutes.TrainingConstructor,
             })}

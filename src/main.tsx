@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
 //setup
 import "./modules/settings/services/settings.ts";
 import "./dayjs.ts";
@@ -16,5 +16,6 @@ if ("serviceWorker" in navigator) {
 createRoot(document.getElementById("root")!).render(
   <HeroUIProvider className="h-full">
     <App />
+    <ToastProvider />
   </HeroUIProvider>
 );

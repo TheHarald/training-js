@@ -4,12 +4,38 @@ import { trainingConstructorStore } from "../../training-constructor/services/tr
 import { navigationStore } from "../../navigation/services/navigation-store";
 import { AppRoutes } from "../../navigation/services/types";
 import { trainingStorageHelper } from "../../../services/training-storage-helper";
+import { addToast } from "@heroui/react";
 
 class TrainingStore {
   trainings: TTrainingPlan[] = [];
+  playedTraining: TTrainingPlan | undefined = undefined;
+  currentExerciseId: string | undefined = undefined;
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  get currentExercise() {
+    return this.playedTraining?.exercises.find(
+      (exercise) => exercise.id === this.currentExerciseId
+    );
+  }
+
+  get nextExercise() {
+    if (this.currentExerciseId === undefined) return undefined;
+    if (this.playedTraining === undefined) return undefined;
+
+    const index = this.playedTraining?.exercises.findIndex(
+      (exercise) => exercise.id === this.currentExerciseId
+    );
+
+    if (index === -1 || index === undefined) return undefined;
+
+    if (index + 1 < this.playedTraining?.exercises.length) {
+      return this.playedTraining?.exercises[index + 1];
+    }
+
+    return undefined;
   }
 
   public getTrainings() {
@@ -31,6 +57,35 @@ class TrainingStore {
     this.trainings = newItems;
 
     trainingStorageHelper.set(newItems);
+  }
+
+  public startTraining(training: TTrainingPlan) {
+    const { exercises } = training;
+
+    if (exercises.length === 0) {
+      addToast({
+        color: "danger",
+        title: "В тренировке нет упражнений",
+      });
+
+      return;
+    }
+
+    this.playedTraining = training;
+    this.currentExerciseId = exercises[0].id;
+  }
+
+  public stopTraining() {
+    this.playedTraining = undefined;
+    this.currentExerciseId = undefined;
+  }
+
+  public goToNextExercise() {
+    const next = this.nextExercise;
+
+    if (next === undefined) return;
+
+    this.currentExerciseId = next.id;
   }
 }
 
