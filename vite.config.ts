@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["192x192.png", "512x512.png"],
+      includeAssets: ["logo192.png", "logo512.png"],
       manifest: {
         name: "Training",
         short_name: "Training",
@@ -24,12 +24,12 @@ export default defineConfig({
         display: "standalone",
         icons: [
           {
-            src: "/training-js/192x192.png",
+            src: "/training-js/logo192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/training-js/512x512.png",
+            src: "/training-js/logo512.png",
             sizes: "512x512",
             type: "image/png",
           },
