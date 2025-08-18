@@ -2,6 +2,8 @@ import { observer } from "mobx-react-lite";
 import type { TTrainingExercise } from "../../../types/types";
 import { Card, CardBody } from "@heroui/react";
 import { useEffect, useState } from "react";
+import { trainingSettingsStore } from "../../settings/services/training-settings-store";
+import { trainingStore } from "../services/training-store";
 
 type TProps = {
   exercise: TTrainingExercise;
@@ -10,16 +12,24 @@ type TProps = {
 export const TrainingExerciseCard = observer<TProps>((props) => {
   const { exercise } = props;
   const { name, duration, repeats, type } = exercise;
+  const { autoRunExercises } = trainingSettingsStore.settings;
 
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
     setTimeLeft(duration); // Сброс времени при изменении упражнения
 
+    if (type === "repeatable") return;
+
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(interval);
+
+          if (autoRunExercises) {
+            trainingStore.goToNextExercise();
+          }
+
           return 0;
         }
         return prevTime - 1;

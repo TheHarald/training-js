@@ -1,10 +1,16 @@
+import { Card, CardBody } from "@heroui/react";
 import { info } from "../services/settings";
+import dayjs from "dayjs";
 
 export const BuildInfo = () => {
+  const date = dayjs(info.buildDate).format("DD.MM.YYYY HH:mm:ss");
+
   return (
-    <div className="flex flex-col gap-2">
-      <div>{info.buildDate}</div>
-      <div>{info.buildVersion}</div>
-    </div>
+    <Card className="flex flex-col gap-2">
+      <CardBody>
+        <div>{`Дата сборки: ${date}`}</div>
+        <div>{info.buildVersion}</div>
+      </CardBody>
+    </Card>
   );
 };
