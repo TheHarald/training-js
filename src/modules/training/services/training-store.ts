@@ -79,6 +79,11 @@ class TrainingStore {
       .join("\n");
 
     navigator.clipboard.writeText(text);
+
+    addToast({
+      color: "success",
+      title: "Тренировка скопирована в буфер обмена",
+    });
   }
 
   public deleteTraining(id: string) {
