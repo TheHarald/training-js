@@ -11,6 +11,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import {
+  ClipboardDocumentIcon,
   EllipsisVerticalIcon,
   FireIcon,
   PencilSquareIcon,
@@ -84,6 +85,14 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
                 onClick={() => trainingStore.editTraining(training)}
               >
                 Редактировать
+              </DropdownItem>
+              <DropdownItem
+                key="export-text"
+                className="text-secondary"
+                startContent={<ClipboardDocumentIcon className={"size-6"} />}
+                onClick={() => trainingStore.exportToText(training)}
+              >
+                Экспорт в текст
               </DropdownItem>
               <DropdownItem
                 key="delete"

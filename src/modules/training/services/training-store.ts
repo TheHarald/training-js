@@ -61,6 +61,26 @@ class TrainingStore {
     navigationStore.setTab(AppRoutes.TrainingConstructor);
   }
 
+  public exportToText(training: TTrainingPlan) {
+    const text = training.exercises
+      .map((exercise, index) => {
+        let exerciseName = exercise.name;
+
+        if (exercise.type === "repeatable") {
+          exerciseName = `${exerciseName}, ${exercise.repeats} раз`;
+        }
+
+        if (exercise.type === "rest" || exercise.type === "timed") {
+          exerciseName = `${exerciseName}, ${exercise.duration} секунд`;
+        }
+
+        return `${index + 1}. ${exerciseName}`;
+      })
+      .join("\n");
+
+    navigator.clipboard.writeText(text);
+  }
+
   public deleteTraining(id: string) {
     const newItems = this.trainings.filter((training) => {
       return training.id !== id;
