@@ -28,13 +28,14 @@ const appRoutes = [
 ];
 
 export const NavigationMenu = observer(() => {
-  const { tab } = navigationStore;
+  const { tab, navigationDisabled } = navigationStore;
 
   return (
     <div className="w-full bg-default safe-bottom">
       <ButtonGroup className="w-full">
         {appRoutes.map((route) => (
           <Button
+            isDisabled={navigationDisabled}
             key={route.key}
             variant="light"
             fullWidth

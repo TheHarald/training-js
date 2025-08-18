@@ -11,6 +11,8 @@ import {
   newTrainingPlanId,
 } from "./constants";
 import { trainingStorageHelper } from "../../../helpers/training-storage-helper";
+import { navigationStore } from "../../navigation/services/navigation-store";
+import { AppRoutes } from "../../navigation/services/types";
 
 class TrainingConstructorStore {
   isEditing: boolean = false;
@@ -62,6 +64,8 @@ class TrainingConstructorStore {
     trainingStorageHelper.set(newItems);
 
     this.trainingPlan = defaultTTrainingPlan;
+
+    navigationStore.setTab(AppRoutes.Training);
   }
 
   public setTrainingName(name: string) {

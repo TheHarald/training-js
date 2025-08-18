@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { trainingStore } from "../services/training-store";
 import { Button, Progress } from "@heroui/react";
-import { StopCircleIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { TrainingExerciseCard } from "./training-exercise-card";
 
 export const TrainingScreen = observer(() => {
@@ -20,15 +20,16 @@ export const TrainingScreen = observer(() => {
         <div className="text-xl font-bold">{name}</div>
         <Button
           color="danger"
+          variant="light"
           isIconOnly
           onPress={() => trainingStore.stopTraining()}
         >
-          <StopCircleIcon className="size-6" />
+          <XCircleIcon className="size-6" />
         </Button>
       </div>
       <Progress
         label={`${progress} / ${exercises.length}`}
-        className="max-w-md font-medium"
+        className="font-medium"
         color="primary"
         size="md"
         maxValue={exercises.length}

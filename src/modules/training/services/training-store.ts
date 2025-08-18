@@ -84,6 +84,7 @@ class TrainingStore {
     }
 
     this.playedTraining = training;
+    navigationStore.setIsDisabledNavigation(true);
   }
 
   public startTraining() {
@@ -91,6 +92,7 @@ class TrainingStore {
   }
 
   public stopTraining() {
+    navigationStore.setIsDisabledNavigation(false);
     this.playedTraining = undefined;
     this.currentExerciseId = undefined;
   }
