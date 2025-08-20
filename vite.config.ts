@@ -19,8 +19,8 @@ export default defineConfig({
         scope: "/training-js/",
         orientation: "portrait",
         description: "Приложение для плана тренировок",
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
+        theme_color: "#000000",
+        background_color: "#000000",
         display: "standalone",
         icons: [
           {
