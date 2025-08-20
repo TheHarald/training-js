@@ -50,7 +50,7 @@ export const TrainingExerciseCard = observer<TProps>((props) => {
   return (
     <Card>
       <CardBody className="flex flex-col gap-2">
-        <div className="font-bold text-lg">{name}</div>
+        <div className="font-bold text-3xl">{name}</div>
 
         {showTimer && (
           <div className="flex items-center justify-between">
