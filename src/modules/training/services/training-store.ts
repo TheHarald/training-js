@@ -58,7 +58,7 @@ class TrainingStore {
 
   public editTraining(training: TTrainingPlan) {
     trainingConstructorStore.setTrainingPlan(training);
-    navigationStore.setTab(AppRoutes.TrainingConstructor);
+    navigationStore.setTab(AppRoutes.Constructor);
   }
 
   public exportToText(training: TTrainingPlan) {

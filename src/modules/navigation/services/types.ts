@@ -1,5 +1,6 @@
 export enum AppRoutes {
   Training = "training",
-  TrainingConstructor = "training-constructor",
+  Constructor = "constructor",
+  Statistics = "statistics",
   Settings = "settings",
 }

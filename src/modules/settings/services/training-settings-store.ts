@@ -5,6 +5,7 @@ import { trainingAppSettingsKey } from "../../../constants";
 
 const defaultSettings: TTrainingAppSettings = {
   autoRunExercises: false,
+  isRequestWeight: false,
 };
 
 const settingsStorage = new TypedStorage<TTrainingAppSettings>(

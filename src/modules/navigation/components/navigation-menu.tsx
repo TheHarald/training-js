@@ -1,4 +1,5 @@
 import {
+  ChartBarIcon,
   Cog6ToothIcon,
   PencilSquareIcon,
   TrophyIcon,
@@ -17,8 +18,13 @@ const appRoutes = [
   },
   {
     title: "Конструктор",
-    key: AppRoutes.TrainingConstructor,
+    key: AppRoutes.Constructor,
     icon: PencilSquareIcon,
+  },
+  {
+    title: "Статистика",
+    key: AppRoutes.Statistics,
+    icon: ChartBarIcon,
   },
   {
     title: "Настройки",

@@ -19,9 +19,7 @@ export const TrainingPlanItemsList = observer(() => {
                 Похоже у вас еще нет тренировок
               </p>
               <Button
-                onPress={() =>
-                  navigationStore.setTab(AppRoutes.TrainingConstructor)
-                }
+                onPress={() => navigationStore.setTab(AppRoutes.Constructor)}
                 color="primary"
               >
                 Создать
