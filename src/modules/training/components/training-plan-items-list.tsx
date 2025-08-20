@@ -1,6 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { trainingStore } from "../services/training-store";
 import { TrainingPlanItem } from "./training-plan-item";
+import { Button } from "@heroui/react";
+import { navigationStore } from "../../navigation/services/navigation-store";
+import { AppRoutes } from "../../navigation/services/types";
 
 export const TrainingPlanItemsList = observer(() => {
   const { trainings } = trainingStore;
@@ -8,9 +11,29 @@ export const TrainingPlanItemsList = observer(() => {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold">Тренировки</h2>
-      {trainings.map((training) => (
-        <TrainingPlanItem key={training.id} training={training} />
-      ))}
+      {(() => {
+        if (trainings.length === 0) {
+          return (
+            <div className="flex flex-col gap-2">
+              <p className="text-gray-500 font-medium text-l text-center py-2">
+                Похоже у вас еще нет тренировок
+              </p>
+              <Button
+                onPress={() =>
+                  navigationStore.setTab(AppRoutes.TrainingConstructor)
+                }
+                color="primary"
+              >
+                Создать
+              </Button>
+            </div>
+          );
+        }
+
+        return trainings.map((training) => (
+          <TrainingPlanItem key={training.id} training={training} />
+        ));
+      })()}
     </div>
   );
 });
