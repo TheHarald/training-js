@@ -3,6 +3,7 @@ import { trainingStore } from "../services/training-store";
 import { Button, Progress } from "@heroui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { TrainingExerciseCard } from "./training-exercise-card";
+import { TrainingExerciseNext } from "./training-exercise-next";
 
 export const TrainingScreen = observer(() => {
   const { playedTraining, currentExercise, progress, nextExercise } =
@@ -41,6 +42,9 @@ export const TrainingScreen = observer(() => {
           return (
             <>
               <TrainingExerciseCard exercise={currentExercise} />
+              {nextExercise ? (
+                <TrainingExerciseNext exercise={nextExercise} />
+              ) : null}
               <Button
                 color="primary"
                 onPress={() => trainingStore.goToNextExercise()}
@@ -48,6 +52,14 @@ export const TrainingScreen = observer(() => {
               >
                 Далее
               </Button>
+              {nextExercise === undefined ? (
+                <Button
+                  color="success"
+                  onPress={() => trainingStore.stopTraining()}
+                >
+                  Завершить тренировку
+                </Button>
+              ) : null}
             </>
           );
         }
