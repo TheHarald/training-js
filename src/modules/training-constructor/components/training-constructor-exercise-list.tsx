@@ -83,7 +83,9 @@ export const TrainingConstructorExerciseList = observer(() => {
               />
             ))
           ) : (
-            <div className="text-center self-center">Упражнений пока нет</div>
+            <p className="text-gray-500 font-medium text-l text-center py-2">
+              Упражнений пока нет
+            </p>
           )}
         </div>
       </ScrollShadow>
