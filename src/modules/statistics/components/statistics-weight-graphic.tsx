@@ -79,25 +79,10 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl shadow-lg"
+        className="flex flex-col items-center justify-center p-8 bg-content1 rounded-2xl shadow-lg"
       >
-        <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center mb-4">
-          <svg
-            className="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-            />
-          </svg>
-        </div>
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">Нет данных</h3>
-        <p className="text-center">Начните заполнять данные о весе</p>
+        <h3 className="text-2xl font-semibold">Нет данных</h3>
+        <p className="text-l text-center">Добавьте значения веса</p>
       </motion.div>
     );
   }
@@ -116,7 +101,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-content1 rounded-2xl shadow-xl p-6 overflow-hidden"
+      className="bg-content1 rounded-2xl shadow-xl p-6 h-full w-full overflow-hidden"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -168,13 +153,9 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
               <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
               <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.05" />
             </linearGradient>
-            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3B82F6" />
-              <stop offset="100%" stopColor="#8B5CF6" />
-            </linearGradient>
           </defs>
 
-          {/* Bacкгround grid */}
+          {/* Background grid */}
           {[0, 1, 2, 3, 4].map((i) => (
             <line
               key={`grid-${i}`}
@@ -182,8 +163,8 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
               y1={20 + (i * (chartHeight - 40)) / 4}
               x2={chartWidth - 20}
               y2={20 + (i * (chartHeight - 40)) / 4}
-              stroke="#E5E7EB"
               strokeWidth={1}
+              className="stroke-gray-400"
               strokeDasharray={3}
             />
           ))}
@@ -248,7 +229,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
         </svg>
 
         {/* Weight labels */}
-        <div className="absolute left-0 top-0 h-full flex flex-col justify-between py-5 text-xs ">
+        <div className="absolute left-0 top-0 h-full flex flex-col justify-between py-5 text-xs">
           <span>{maxWeight.toFixed(1)} кг</span>
           <span>{((maxWeight + minWeight) / 2).toFixed(1)} кг</span>
           <span>{minWeight.toFixed(1)} кг</span>
@@ -273,7 +254,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t"
+        className="grid grid-cols-3 gap-4 mt-6 pt-6"
       >
         <div className="text-center">
           <div className="text-lg font-semibold ">{minWeight.toFixed(1)}</div>

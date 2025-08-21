@@ -12,7 +12,7 @@ export const StatisticsModule = observer(() => {
   const { weights } = statisticsStore;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 overflow-hidden">
       <StatisticsWeightGraphic weights={weights} />
       <Button onPress={() => statisticsStore.setOpen(true)} color="primary">
         Заполнить показания веса
