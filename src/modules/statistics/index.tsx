@@ -1,12 +1,18 @@
 import { observer } from "mobx-react-lite";
-import { StatisticsWeightRequestModal } from "./components/statistics-weight-request-modal";
 import { useEffect } from "react";
 import { statisticsStore } from "./services/statistics-store";
+import { StatisticsWeightGraphic } from "./components/statistics-weight-graphic";
 
 export const StatisticsModule = observer(() => {
   useEffect(() => {
     statisticsStore.tryRequestWeight();
   }, []);
 
-  return <StatisticsWeightRequestModal />;
+  const { weights } = statisticsStore;
+
+  return (
+    <>
+      <StatisticsWeightGraphic weights={weights} />
+    </>
+  );
 });

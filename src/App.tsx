@@ -6,6 +6,7 @@ import { AppRoutes } from "./modules/navigation/services/types";
 import { SettingsModule } from "./modules/settings";
 import { TrainingModule } from "./modules/training";
 import { StatisticsModule } from "./modules/statistics";
+import { StatisticsWeightRequestModal } from "./modules/statistics/components/statistics-weight-request-modal";
 
 const App = observer(() => {
   const { tab } = navigationStore;
@@ -24,12 +25,15 @@ const App = observer(() => {
             case AppRoutes.Settings: {
               return <SettingsModule />;
             }
+            case AppRoutes.Statistics: {
+              return <StatisticsModule />;
+            }
             default:
               return <div>404</div>;
           }
         })()}
       </div>
-      <StatisticsModule />
+      <StatisticsWeightRequestModal />
       <NavigationMenu />
     </div>
   );

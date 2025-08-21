@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { TypedStorage } from "../../../utils/storage";
 import { trainingStatisticsKey } from "../../../constants";
-import type { TStatisticWeightData } from "./staticstic-types";
+import type { TStatisticWeightData } from "./statistic-types";
 import { weightRequestDelayMs } from "./staticstic-constants";
 import { trainingSettingsStore } from "../../settings/services/training-settings-store";
 
