@@ -193,6 +193,13 @@ class TrainingConstructorStore {
     this.trainingPlan.exercises.splice(index, 1);
   }
 
+  public duplicateExercise(exercise: TTrainingExercise) {
+    this.trainingPlan.exercises.push({
+      ...exercise,
+      id: crypto.randomUUID(),
+    });
+  }
+
   public setTrainingPlan(training: TTrainingPlan) {
     this.trainingPlan = { ...training };
   }

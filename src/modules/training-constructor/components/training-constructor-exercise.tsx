@@ -12,6 +12,7 @@ import type { TTrainingExercise } from "../../../types/types";
 import {
   ArrowDownCircleIcon,
   ArrowUpCircleIcon,
+  DocumentDuplicateIcon,
   EllipsisVerticalIcon,
   PencilSquareIcon,
   TrashIcon,
@@ -64,13 +65,16 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
               Редактировать
             </DropdownItem>
             <DropdownItem
-              key="delete-exercise"
-              className="text-danger"
-              startContent={<TrashIcon className={"size-6"} />}
-              onClick={() => trainingConstructorStore.deleteExercise(id)}
+              key="duplicate-exercise"
+              className="text-secondary"
+              startContent={<DocumentDuplicateIcon className={"size-6"} />}
+              onClick={() =>
+                trainingConstructorStore.duplicateExercise(exercise)
+              }
             >
-              Удалить
+              Дублировать
             </DropdownItem>
+
             <DropdownItem
               key="up-exercise"
               className="text-secondary"
@@ -90,6 +94,14 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
               }
             >
               Ниже
+            </DropdownItem>
+            <DropdownItem
+              key="delete-exercise"
+              className="text-danger"
+              startContent={<TrashIcon className={"size-6"} />}
+              onClick={() => trainingConstructorStore.deleteExercise(id)}
+            >
+              Удалить
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
