@@ -83,7 +83,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
       >
         <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center mb-4">
           <svg
-            className="w-8 h-8 text-white"
+            className="w-8 h-8"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -96,12 +96,8 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
             />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">
-          No Weight Data Yet
-        </h3>
-        <p className="text-gray-500 text-center">
-          Start tracking your weight to see beautiful progress charts here!
-        </p>
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">Нет данных</h3>
+        <p className="text-center">Начните заполнять данные о весе</p>
       </motion.div>
     );
   }
@@ -120,18 +116,16 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-2xl shadow-xl p-6 overflow-hidden"
+      className="bg-content1 rounded-2xl shadow-xl p-6 overflow-hidden"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Динамика веса</h2>
-          <p className="text-gray-500">{weights.length} измерений</p>
+          <h2 className="text-2xl font-bold">Динамика веса</h2>
+          <p className="">{weights.length} измерений</p>
         </div>
         <div className="text-right">
-          <div className="text-3xl font-bold text-gray-800">
-            {latestWeight.weight} кг
-          </div>
+          <div className="text-3xl font-bold ">{latestWeight.weight} кг</div>
           {previousWeight && (
             <motion.div
               initial={{ opacity: 0, x: 10 }}
@@ -141,7 +135,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
                   ? "text-red-500"
                   : weightChange < 0
                   ? "text-green-500"
-                  : "text-gray-500"
+                  : ""
               }`}
             >
               {weightChange > 0 ? "↗" : weightChange < 0 ? "↘" : "→"}
@@ -189,8 +183,8 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
               x2={chartWidth - 20}
               y2={20 + (i * (chartHeight - 40)) / 4}
               stroke="#E5E7EB"
-              strokeWidth="1"
-              strokeDasharray="2,2"
+              strokeWidth={1}
+              strokeDasharray={3}
             />
           ))}
 
@@ -215,8 +209,8 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
               transition={{ duration: 1.5, ease: "easeInOut" }}
               d={pathD}
               fill="none"
-              stroke="url(#lineGradient)"
-              strokeWidth="3"
+              className="stroke-primary"
+              strokeWidth={3}
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -225,18 +219,19 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
           {/* Data points */}
           <AnimatePresence>
             {points.map((point, index) => (
-              <motion.g key={`point-${point.date}`}>
+              <motion.g
+                className={"cursor-pointer"}
+                key={`point-${point.date}`}
+              >
                 <motion.circle
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: index * 0.1 + 0.5, duration: 0.3 }}
                   cx={point.x}
                   cy={point.y}
-                  r="6"
-                  fill="white"
-                  stroke="url(#lineGradient)"
-                  strokeWidth={6}
-                  className="cursor-pointer hover:r-8 transition-all duration-200"
+                  r={6}
+                  strokeWidth={2}
+                  className="fill-primary"
                 />
                 <motion.circle
                   initial={{ scale: 0 }}
@@ -244,8 +239,8 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
                   transition={{ delay: index * 0.1 + 0.7, duration: 0.2 }}
                   cx={point.x}
                   cy={point.y}
-                  r="3"
-                  fill="url(#lineGradient)"
+                  r={3}
+                  className={"fill-white"}
                 />
               </motion.g>
             ))}
@@ -253,7 +248,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
         </svg>
 
         {/* Weight labels */}
-        <div className="absolute left-0 top-0 h-full flex flex-col justify-between py-5 text-xs text-gray-500">
+        <div className="absolute left-0 top-0 h-full flex flex-col justify-between py-5 text-xs ">
           <span>{maxWeight.toFixed(1)} кг</span>
           <span>{((maxWeight + minWeight) / 2).toFixed(1)} кг</span>
           <span>{minWeight.toFixed(1)} кг</span>
@@ -261,7 +256,7 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
       </div>
 
       {/* Date labels */}
-      <div className="flex justify-between mt-4 px-5 text-xs text-gray-500">
+      <div className="flex justify-between mt-4 px-5 text-xs ">
         {points.length > 0 && (
           <>
             <span>{points[0].formattedDate}</span>
@@ -278,27 +273,23 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-100"
+        className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t"
       >
         <div className="text-center">
-          <div className="text-lg font-semibold text-gray-800">
-            {minWeight.toFixed(1)}
-          </div>
-          <div className="text-xs text-gray-500">Minimum</div>
+          <div className="text-lg font-semibold ">{minWeight.toFixed(1)}</div>
+          <div className="text-xs ">Минимум</div>
         </div>
         <div className="text-center">
-          <div className="text-lg font-semibold text-gray-800">
-            {maxWeight.toFixed(1)}
-          </div>
-          <div className="text-xs text-gray-500">Maximum</div>
+          <div className="text-lg font-semibold ">{maxWeight.toFixed(1)}</div>
+          <div className="text-xs ">Максимум</div>
         </div>
         <div className="text-center">
-          <div className="text-lg font-semibold text-gray-800">
+          <div className="text-lg font-semibold ">
             {(
               weights.reduce((sum, w) => sum + w.weight, 0) / weights.length
             ).toFixed(1)}
           </div>
-          <div className="text-xs text-gray-500">Average</div>
+          <div className="text-xs ">Средний вес</div>
         </div>
       </motion.div>
     </motion.div>
