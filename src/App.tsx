@@ -7,9 +7,15 @@ import { SettingsModule } from "./modules/settings";
 import { TrainingModule } from "./modules/training";
 import { StatisticsModule } from "./modules/statistics";
 import { StatisticsWeightRequestModal } from "./modules/statistics/components/statistics-weight-request-modal";
+import { useEffect } from "react";
+import { statisticsStore } from "./modules/statistics/services/statistics-store";
 
 const App = observer(() => {
   const { tab } = navigationStore;
+
+  useEffect(() => {
+    statisticsStore.tryRequestWeight();
+  }, []);
 
   return (
     <div className="flex flex-col h-dvh w-screen overflow-hidden">
