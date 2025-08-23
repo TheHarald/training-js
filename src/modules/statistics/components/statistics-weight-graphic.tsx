@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useMemo } from "react";
 import dayjs from "dayjs";
 import type { TStatisticWeightData } from "../services/statistic-types";
+import classNames from "classnames";
 
 interface ChartPoint {
   x: number;
@@ -115,13 +116,11 @@ export const StatisticsWeightGraphic = observer<TProps>((props) => {
             <motion.div
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
-              className={`flex items-center justify-end text-sm ${
-                weightChange > 0
-                  ? "text-red-500"
-                  : weightChange < 0
-                  ? "text-green-500"
-                  : ""
-              }`}
+              className={classNames(
+                "flex items-center justify-end text-sm",
+                { "text-red-500": weightChange > 0 },
+                { "text-green-500": weightChange < 0 }
+              )}
             >
               {weightChange > 0 ? "↗" : weightChange < 0 ? "↘" : "→"}
               <span className="ml-1">
