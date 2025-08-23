@@ -34,7 +34,7 @@ class TrainingConstructorStore {
   }
 
   public addTrainingPlan() {
-    const trainings = trainingStorageHelper.get() ?? [];
+    const trainings = trainingStorageHelper.get();
     let newItems: TTrainingPlan[] = [];
 
     // new

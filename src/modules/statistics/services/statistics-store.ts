@@ -11,8 +11,8 @@ const statisticsStorage = new TypedStorage<TStatisticWeightData[]>(
 );
 
 class StatisticsStore {
-  weight: number = statisticsStorage.get()?.at(-1)?.weight ?? 50;
-  weights: TStatisticWeightData[] = statisticsStorage.get() ?? [];
+  weight: number = statisticsStorage.get().at(-1)?.weight ?? 50;
+  weights: TStatisticWeightData[] = statisticsStorage.get();
   weightModalOpen = false;
 
   constructor() {

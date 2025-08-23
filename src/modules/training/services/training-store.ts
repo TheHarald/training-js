@@ -51,7 +51,7 @@ class TrainingStore {
   }
 
   public getTrainings() {
-    const trainings = trainingStorageHelper.get() ?? [];
+    const trainings = trainingStorageHelper.get();
 
     this.trainings = trainings;
   }

@@ -7,16 +7,13 @@ export class TypedStorage<T> {
    * @param key - ключ в localStorage
    * @param defaultValue - значение по умолчанию
    */
-  constructor(
-    private readonly key: string,
-    private readonly defaultValue: T | null = null
-  ) {}
+  constructor(private readonly key: string, private readonly defaultValue: T) {}
 
   /**
    * Получает значение из хранилища
    * @returns Значение или defaultValue, если не найдено
    */
-  get(): T | null {
+  get(): T {
     try {
       const item = localStorage.getItem(this.key);
       return item ? (JSON.parse(item) as T) : this.defaultValue;

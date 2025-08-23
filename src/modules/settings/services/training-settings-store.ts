@@ -14,7 +14,7 @@ const settingsStorage = new TypedStorage<TTrainingAppSettings>(
 );
 
 class TrainingSettingsStore {
-  settings: TTrainingAppSettings = settingsStorage.get() ?? defaultSettings;
+  settings: TTrainingAppSettings = settingsStorage.get();
 
   constructor() {
     makeAutoObservable(this);
