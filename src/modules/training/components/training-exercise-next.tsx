@@ -1,16 +1,14 @@
 import { observer } from "mobx-react-lite";
-import type { TTrainingExercise } from "../../../types/types";
 import { Card, CardBody, CardHeader } from "@heroui/react";
+import { TExerciseType, type TExercise } from "../../../types/types";
 
 type TProps = {
-  exercise: TTrainingExercise;
+  exercise: TExercise;
 };
 
 export const TrainingExerciseNext = observer<TProps>((props) => {
   const { exercise } = props;
-  const { name, repeats, type, duration } = exercise;
-
-  const hasDuration = type === "timed";
+  const { name, type } = exercise;
 
   return (
     <Card className="opacity-75 border-dashed border-2 border-primary">
@@ -20,14 +18,23 @@ export const TrainingExerciseNext = observer<TProps>((props) => {
       <CardBody className="flex flex-col gap-2">
         <div className="font-bold text-lg">{name}</div>
 
-        {type === "repeatable" && (
-          <div className="font-medium text-gray-600">Повторений: {repeats}</div>
-        )}
-        {hasDuration && (
-          <div className="font-medium text-gray-600">
-            Длительность, сек: {duration}
-          </div>
-        )}
+        {(() => {
+          if (type === TExerciseType.Quantitative) {
+            return (
+              <div className="font-medium text-gray-600">
+                Повторений: {exercise.repeats}
+              </div>
+            );
+          }
+
+          if (type === TExerciseType.Timed || type === TExerciseType.Rest) {
+            return (
+              <div className="font-medium text-gray-600">
+                Длительность, сек: {exercise.duration}
+              </div>
+            );
+          }
+        })()}
       </CardBody>
     </Card>
   );

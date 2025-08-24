@@ -1,14 +1,18 @@
 import { makeAutoObservable } from "mobx";
-import type { TTrainingPlan } from "../../../types/types";
 import { trainingConstructorStore } from "../../training-constructor/services/training-constructor-store";
 import { navigationStore } from "../../navigation/services/navigation-store";
 import { AppRoutes } from "../../navigation/services/types";
 import { trainingStorageHelper } from "../../../helpers/training-storage-helper";
 import { addToast } from "@heroui/react";
+import {
+  TExerciseType,
+  type IRestItem,
+  type TWorkoutPlan,
+} from "../../../types/types";
 
 class TrainingStore {
-  trainings: TTrainingPlan[] = [];
-  playedTraining: TTrainingPlan | undefined = undefined;
+  trainings: TWorkoutPlan[] = [];
+  playedTraining: TWorkoutPlan | undefined = undefined;
   currentExerciseId: string | undefined = undefined;
 
   constructor() {
@@ -56,21 +60,21 @@ class TrainingStore {
     this.trainings = trainings;
   }
 
-  public editTraining(training: TTrainingPlan) {
+  public editTraining(training: TWorkoutPlan) {
     trainingConstructorStore.setTrainingPlan(training);
     navigationStore.setTab(AppRoutes.Constructor);
   }
 
-  public exportToText(training: TTrainingPlan) {
+  public exportToText(training: TWorkoutPlan) {
     const text = training.exercises
       .map((exercise, index) => {
         let exerciseName = exercise.name;
 
-        if (exercise.type === "repeatable") {
+        if (exercise.type === TExerciseType.Quantitative) {
           exerciseName = `${exerciseName}, ${exercise.repeats} раз`;
         }
 
-        if (exercise.type === "timed") {
+        if (exercise.type === TExerciseType.Timed) {
           exerciseName = `${exerciseName}, ${exercise.duration} секунд`;
         }
 
@@ -96,8 +100,9 @@ class TrainingStore {
     trainingStorageHelper.set(newItems);
   }
 
-  public selectTraining(training: TTrainingPlan) {
-    const { exercises } = training;
+  public selectTraining(training: TWorkoutPlan) {
+    const { exercises, rounds, roundsRestDuration, exerciseRestDuration } =
+      training;
 
     if (exercises.length === 0) {
       addToast({
@@ -108,7 +113,42 @@ class TrainingStore {
       return;
     }
 
-    this.playedTraining = training;
+    const trainingWithRests: TWorkoutPlan = {
+      ...training,
+      exercises: [],
+    };
+
+    for (let round = 0; round < rounds; round++) {
+      // Добавляем упражнения текущего круга с отдыхом между ними
+      exercises.forEach((exercise, index) => {
+        // Добавляем текущее упражнение
+        trainingWithRests.exercises.push(exercise);
+
+        // Добавляем отдых после каждого упражнения, кроме последнего в круге
+        if (index < exercises.length - 1) {
+          const restExercise: IRestItem = {
+            id: crypto.randomUUID(),
+            name: "Отдых",
+            type: TExerciseType.Rest,
+            duration: exerciseRestDuration,
+          };
+          trainingWithRests.exercises.push(restExercise);
+        }
+      });
+
+      // Добавляем отдых между кругами, кроме последнего круга
+      if (round < rounds - 1) {
+        const circleRest: IRestItem = {
+          id: crypto.randomUUID(),
+          name: "Отдых между кругами",
+          type: TExerciseType.Rest,
+          duration: roundsRestDuration,
+        };
+        trainingWithRests.exercises.push(circleRest);
+      }
+    }
+
+    this.playedTraining = trainingWithRests;
     navigationStore.setIsDisabledNavigation(true);
   }
 

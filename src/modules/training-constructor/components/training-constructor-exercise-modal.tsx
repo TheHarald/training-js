@@ -13,14 +13,13 @@ import { observer } from "mobx-react-lite";
 import { trainingConstructorStore } from "../services/training-constructor-store";
 import { durations } from "../services/constants";
 import { Counter } from "../../../components/counter";
+import { TExerciseType } from "../../../types/types";
 
 export const TrainingConstructorExerciseModal = observer(() => {
   const { isEditing, editingExercise, canConfirmEditing } =
     trainingConstructorStore;
 
-  const { name, duration, repeats, type } = editingExercise;
-
-  const selected = duration ? [duration.toString()] : [];
+  const { name, type } = editingExercise;
 
   return (
     <Modal
@@ -34,16 +33,14 @@ export const TrainingConstructorExerciseModal = observer(() => {
         <ModalBody>
           <div className="flex flex-row gap-2">
             <Button
-              onPress={() => trainingConstructorStore.setExerciseType("timed")}
-              color={type === "timed" ? "primary" : "default"}
+              color={type === TExerciseType.Timed ? "primary" : "default"}
             >
               Время
             </Button>
             <Button
-              onPress={() =>
-                trainingConstructorStore.setExerciseType("repeatable")
+              color={
+                type === TExerciseType.Quantitative ? "primary" : "default"
               }
-              color={type === "repeatable" ? "primary" : "default"}
             >
               Количество
             </Button>
@@ -58,32 +55,45 @@ export const TrainingConstructorExerciseModal = observer(() => {
             placeholder="Введите название упражнения"
             value={name}
           />
-          {type === "timed" ? (
-            <Select
-              label="Длительность, сек"
-              placeholder="Выберите длительность"
-              selectedKeys={selected}
-              onSelectionChange={([value]) => {
-                trainingConstructorStore.setExerciseDuration(Number(value));
-              }}
-            >
-              {durations.map((duration) => (
-                <SelectItem key={duration.toString()}>
-                  {duration.toString()}
-                </SelectItem>
-              ))}
-            </Select>
-          ) : null}
 
-          {type === "repeatable" ? (
-            <Counter
-              label="Повторения, раз"
-              value={repeats}
-              onChange={(value) =>
-                trainingConstructorStore.setExerciseRepeats(value)
-              }
-            />
-          ) : null}
+          {(() => {
+            if (type === TExerciseType.Quantitative) {
+              return (
+                <Counter
+                  label="Повторения, раз"
+                  value={editingExercise.repeats}
+                  onChange={(value) =>
+                    trainingConstructorStore.setExerciseRepeats(value)
+                  }
+                />
+              );
+            }
+
+            if (type === TExerciseType.Timed) {
+              const selected = editingExercise.duration
+                ? [editingExercise.duration.toString()]
+                : [];
+
+              return (
+                <Select
+                  label="Длительность, сек"
+                  placeholder="Выберите длительность"
+                  selectedKeys={selected}
+                  onSelectionChange={([value]) => {
+                    trainingConstructorStore.setExerciseDuration(Number(value));
+                  }}
+                >
+                  {durations.map((duration) => (
+                    <SelectItem key={duration.toString()}>
+                      {duration.toString()}
+                    </SelectItem>
+                  ))}
+                </Select>
+              );
+            }
+
+            return null;
+          })()}
         </ModalBody>
         <ModalFooter className="flex flex-row gap-2">
           <Button onPress={() => trainingConstructorStore.cancelEditing()}>

@@ -1,12 +1,8 @@
-import type { TTrainingExercise, TTrainingPlan } from "../../../types/types";
-
-export const defaultTrainingExercise: TTrainingExercise = {
-  id: "",
-  name: "",
-  repeats: 1,
-  duration: 1,
-  type: "repeatable",
-};
+import {
+  TExerciseType,
+  type TExercise,
+  type TWorkoutPlan,
+} from "../../../types/types";
 
 export const newTrainingPlanId = "new-training-plan";
 
@@ -15,12 +11,26 @@ export const durations = [
   100, 105, 110, 115, 120,
 ];
 
-export const defaultExerciseDuration = durations[5];
+export const defaultDuration = durations[5];
 
-export const defaultTTrainingPlan: TTrainingPlan = {
+export const defaultQuantitativeExercise: TExercise = {
+  id: "",
+  name: "",
+  repeats: 20,
+  type: TExerciseType.Quantitative,
+};
+export const defaultTimedExercise: TExercise = {
+  id: "",
+  name: "",
+  duration: defaultDuration,
+  type: TExerciseType.Timed,
+};
+
+export const defaultTTrainingPlan: TWorkoutPlan = {
   id: newTrainingPlanId,
-  restDuration: defaultExerciseDuration,
-  circlesCount: 1,
+  exerciseRestDuration: defaultDuration,
+  roundsRestDuration: defaultDuration,
+  rounds: 1,
   name: "",
   exercises: [],
 };

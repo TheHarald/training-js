@@ -2,6 +2,7 @@ import { Button } from "@heroui/react";
 import { BuildInfo } from "./components/build-info";
 import { TrainingSettingsEditor } from "./components/training-settings-editor";
 import { ConfirmationWrapper } from "../../components/confirmation-wrapper";
+import { trainingStorageHelper } from "../../helpers/training-storage-helper";
 
 export const SettingsModule = () => {
   return (
@@ -19,6 +20,17 @@ export const SettingsModule = () => {
         cancelText="Отменить"
       >
         <Button color="danger">Очистить хранилище</Button>
+      </ConfirmationWrapper>
+
+      <ConfirmationWrapper
+        color="danger"
+        onConfirm={() => trainingStorageHelper.remove()}
+        title="Очистка списка тренировок"
+        message="Вы уверены, что хотите очистить все тренировки? Это действие нельзя отменить."
+        confirmText="Очистить"
+        cancelText="Отменить"
+      >
+        <Button color="danger">Очистить список тренировок</Button>
       </ConfirmationWrapper>
     </div>
   );
