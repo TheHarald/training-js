@@ -45,7 +45,7 @@ export const TrainingExerciseCard = observer<TProps>((props) => {
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  const showTimer = type === "timed" || type === "rest";
+  const showTimer = type === "timed";
 
   return (
     <Card>

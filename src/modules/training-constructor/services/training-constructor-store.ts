@@ -33,6 +33,14 @@ class TrainingConstructorStore {
     );
   }
 
+  public setRestDuration(duration: number) {
+    this.trainingPlan.restDuration = duration;
+  }
+
+  public setCirclesCount(count: number) {
+    this.trainingPlan.circlesCount = count;
+  }
+
   public addTrainingPlan() {
     const trainings = trainingStorageHelper.get();
     let newItems: TTrainingPlan[] = [];
@@ -42,8 +50,7 @@ class TrainingConstructorStore {
       newItems = [
         ...trainings,
         {
-          name: this.trainingPlan.name,
-          exercises: this.trainingPlan.exercises,
+          ...this.trainingPlan,
           id: crypto.randomUUID(),
         },
       ];
@@ -120,16 +127,6 @@ class TrainingConstructorStore {
 
   public setExerciseType(type: TTrainingExerciseType) {
     this.editingExercise.type = type;
-  }
-
-  public addRestExercise() {
-    this.trainingPlan.exercises.push({
-      id: crypto.randomUUID(),
-      type: "rest",
-      duration: 60,
-      repeats: 1,
-      name: "Отдых",
-    });
   }
 
   public confirmEditing() {

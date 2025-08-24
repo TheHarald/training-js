@@ -8,7 +8,10 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  NumberInput,
   ScrollShadow,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import {
   CheckCircleIcon,
@@ -16,10 +19,14 @@ import {
   PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+import { durations } from "../services/constants";
 
 export const TrainingConstructorExerciseList = observer(() => {
   const { canCreateTraining, trainingPlan } = trainingConstructorStore;
-  const { exercises, name } = trainingPlan;
+  const { exercises, name, restDuration, circlesCount } = trainingPlan;
+
+  const selected = restDuration ? [restDuration.toString()] : [];
+
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
       <div className="flex flex-row gap-2">
@@ -46,14 +53,6 @@ export const TrainingConstructorExerciseList = observer(() => {
               Добавить упражнение
             </DropdownItem>
             <DropdownItem
-              key="add-rest"
-              className="text-secondary"
-              startContent={<PlusCircleIcon className={"size-6"} />}
-              onClick={() => trainingConstructorStore.addRestExercise()}
-            >
-              Добавить отдых
-            </DropdownItem>
-            <DropdownItem
               key="clear"
               className="text-danger"
               startContent={<TrashIcon className={"size-6"} />}
@@ -73,6 +72,33 @@ export const TrainingConstructorExerciseList = observer(() => {
           <CheckCircleIcon className="size-6" />
         </Button>
       </div>
+
+      <div className="flex flex-row gap-2">
+        <Select
+          label="Длительность отдыха, сек"
+          placeholder="Выберите длительность"
+          selectedKeys={selected}
+          onSelectionChange={([value]) => {
+            trainingConstructorStore.setRestDuration(Number(value));
+          }}
+        >
+          {durations.map((duration) => (
+            <SelectItem key={duration.toString()}>
+              {duration.toString()}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <NumberInput
+          minValue={1}
+          label={"Круги"}
+          value={circlesCount}
+          onValueChange={(value) =>
+            trainingConstructorStore.setCirclesCount(value)
+          }
+        />
+      </div>
+
       <ScrollShadow hideScrollBar>
         <div className="flex flex-col gap-2 min-h-full">
           {exercises.length ? (

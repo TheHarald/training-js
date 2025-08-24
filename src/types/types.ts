@@ -1,4 +1,4 @@
-export type TTrainingExerciseType = "repeatable" | "timed" | "rest";
+export type TTrainingExerciseType = "repeatable" | "timed";
 
 export type TTrainingExercise = {
   id: string;
@@ -11,5 +11,7 @@ export type TTrainingExercise = {
 export type TTrainingPlan = {
   id: string;
   name: string;
+  restDuration: number;
+  circlesCount: number;
   exercises: TTrainingExercise[];
 };

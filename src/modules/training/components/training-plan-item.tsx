@@ -40,7 +40,7 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
         time += exercise.repeats * averageOneExerciseTime;
       }
 
-      if (exercise.type === "timed" || exercise.type === "rest") {
+      if (exercise.type === "timed") {
         time += exercise.duration;
       }
     }
@@ -49,7 +49,7 @@ export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
   }, [exercises]);
 
   const exerciseCount = useMemo(() => {
-    return exercises.filter((exercise) => exercise.type !== "rest").length;
+    return exercises.length;
   }, [exercises]);
 
   return (

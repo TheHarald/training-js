@@ -19,7 +19,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { trainingConstructorStore } from "../services/training-constructor-store";
 import { useMemo } from "react";
-import classNames from "classnames";
 
 type TProps = {
   exercise: TTrainingExercise;
@@ -35,7 +34,7 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
       return `${name}, ${repeats} повторений`;
     }
 
-    if (type === "timed" || type === "rest") {
+    if (type === "timed") {
       return `${name}, ${duration} секунд`;
     }
 
@@ -43,7 +42,7 @@ export const TrainingConstructorExercise = observer<TProps>((props) => {
   }, [duration, name, repeats, type]);
 
   return (
-    <Card className={classNames({ "bg-success-50": type === "rest" })}>
+    <Card>
       <CardBody className="flex flex-row gap-2 py-1 justify-between">
         <div className="flex flex-row gap-2 text-l font-medium items-center">
           {title}

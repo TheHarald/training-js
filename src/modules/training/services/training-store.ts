@@ -70,7 +70,7 @@ class TrainingStore {
           exerciseName = `${exerciseName}, ${exercise.repeats} раз`;
         }
 
-        if (exercise.type === "rest" || exercise.type === "timed") {
+        if (exercise.type === "timed") {
           exerciseName = `${exerciseName}, ${exercise.duration} секунд`;
         }
 

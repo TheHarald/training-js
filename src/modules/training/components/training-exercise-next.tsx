@@ -10,7 +10,7 @@ export const TrainingExerciseNext = observer<TProps>((props) => {
   const { exercise } = props;
   const { name, repeats, type, duration } = exercise;
 
-  const hasDuration = type === "rest" || type === "timed";
+  const hasDuration = type === "timed";
 
   return (
     <Card className="opacity-75 border-dashed border-2 border-primary">
