@@ -4,7 +4,7 @@ export const defaultTrainingExercise: TTrainingExercise = {
   id: "",
   name: "",
   repeats: 1,
-  duration: 0,
+  duration: 1,
   type: "repeatable",
 };
 
