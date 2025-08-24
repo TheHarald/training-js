@@ -11,16 +11,15 @@ import {
 } from "@heroui/react";
 import { observer } from "mobx-react-lite";
 import { trainingConstructorStore } from "../services/training-constructor-store";
-import { exerciseDurations } from "../services/constants";
+import { durations } from "../services/constants";
 import { Counter } from "../../../components/counter";
+import { TExerciseType } from "../../../types/types";
 
 export const TrainingConstructorExerciseModal = observer(() => {
   const { isEditing, editingExercise, canConfirmEditing } =
     trainingConstructorStore;
 
-  const { name, duration, repeats, type } = editingExercise;
-
-  const selected = duration ? [duration.toString()] : [];
+  const { name, type } = editingExercise;
 
   return (
     <Modal
@@ -32,63 +31,69 @@ export const TrainingConstructorExerciseModal = observer(() => {
       <ModalContent>
         <ModalHeader>Редактирование</ModalHeader>
         <ModalBody>
-          {type === "rest" ? null : (
-            <div className="flex flex-row gap-2">
-              <Button
-                onPress={() =>
-                  trainingConstructorStore.setExerciseType("timed")
-                }
-                color={type === "timed" ? "primary" : "default"}
-              >
-                Время
-              </Button>
-              <Button
-                onPress={() =>
-                  trainingConstructorStore.setExerciseType("repeatable")
-                }
-                color={type === "repeatable" ? "primary" : "default"}
-              >
-                Количество
-              </Button>
-            </div>
-          )}
+          <div className="flex flex-row gap-2">
+            <Button
+              color={type === TExerciseType.Timed ? "primary" : "default"}
+            >
+              Время
+            </Button>
+            <Button
+              color={
+                type === TExerciseType.Quantitative ? "primary" : "default"
+              }
+            >
+              Количество
+            </Button>
+          </div>
 
           <Input
             onChange={(e) =>
               trainingConstructorStore.setExerciseName(e.target.value)
             }
-            isDisabled={type === "rest"}
             label="Название упражнения"
             required
             placeholder="Введите название упражнения"
             value={name}
           />
-          {type === "timed" || type === "rest" ? (
-            <Select
-              label="Длительность, сек"
-              placeholder="Выберите длительность"
-              selectedKeys={selected}
-              onSelectionChange={([value]) => {
-                trainingConstructorStore.setExerciseDuration(Number(value));
-              }}
-            >
-              {exerciseDurations.map((duration) => (
-                <SelectItem key={duration.toString()}>
-                  {duration.toString()}
-                </SelectItem>
-              ))}
-            </Select>
-          ) : null}
 
-          {type === "repeatable" ? (
-            <Counter
-              label="Повторения, раз"
-              value={repeats}
-              onChange={(value) =>
-                trainingConstructorStore.setExerciseRepeats(value)
-              }
-            />
-          ) : null}
+          {(() => {
+            if (type === TExerciseType.Quantitative) {
+              return (
+                <Counter
+                  label="Повторения, раз"
+                  value={editingExercise.repeats}
+                  onChange={(value) =>
+                    trainingConstructorStore.setExerciseRepeats(value)
+                  }
+                />
+              );
+            }
+
+            if (type === TExerciseType.Timed) {
+              const selected = editingExercise.duration
+                ? [editingExercise.duration.toString()]
+                : [];
+
+              return (
+                <Select
+                  label="Длительность, сек"
+                  placeholder="Выберите длительность"
+                  selectedKeys={selected}
+                  onSelectionChange={([value]) => {
+                    trainingConstructorStore.setExerciseDuration(Number(value));
+                  }}
+                >
+                  {durations.map((duration) => (
+                    <SelectItem key={duration.toString()}>
+                      {duration.toString()}
+                    </SelectItem>
+                  ))}
+                </Select>
+              );
+            }
+
+            return null;
+          })()}
         </ModalBody>
         <ModalFooter className="flex flex-row gap-2">
           <Button onPress={() => trainingConstructorStore.cancelEditing()}>

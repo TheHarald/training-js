@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import type { TTrainingPlan } from "../../../types/types";
 import {
   Button,
   Card,
@@ -22,35 +21,50 @@ import { useMemo } from "react";
 import { averageOneExerciseTime } from "../../../constants";
 import dayjs from "dayjs";
 import { trainingStore } from "../services/training-store";
+import { TExerciseType, type TWorkoutPlan } from "../../../types/types";
 
 type TrainingPlanItemProps = {
-  training: TTrainingPlan;
+  training: TWorkoutPlan;
 };
 
 export const TrainingPlanItem = observer<TrainingPlanItemProps>((props) => {
   const { training } = props;
 
-  const { name, exercises } = training;
+  const { name, exercises, exerciseRestDuration, roundsRestDuration, rounds } =
+    training;
 
   const duration = useMemo(() => {
-    let time = 0;
+    let roundTime = 0;
+    let totalTime = 0;
 
-    for (const exercise of exercises) {
-      if (exercise.type === "repeatable") {
-        time += exercise.repeats * averageOneExerciseTime;
+    exercises.forEach((exercise, index) => {
+      if (exercise.type === TExerciseType.Quantitative) {
+        roundTime += exercise.repeats * averageOneExerciseTime;
       }
 
-      if (exercise.type === "timed" || exercise.type === "rest") {
-        time += exercise.duration;
+      if (exercise.type === TExerciseType.Timed) {
+        roundTime += exercise.duration;
+      }
+
+      if (index < exercises.length - 1) {
+        roundTime += exerciseRestDuration;
+      }
+    });
+
+    for (let roundIndex = 0; roundIndex < rounds; roundIndex++) {
+      totalTime += roundTime;
+      // Добавляем отдых между кругами, если это не последний круг
+      if (roundIndex < rounds - 1) {
+        totalTime += roundsRestDuration;
       }
     }
 
-    return dayjs.duration(time, "seconds").humanize();
-  }, [exercises]);
+    return dayjs.duration(totalTime, "seconds").humanize();
+  }, [exercises, exerciseRestDuration, roundsRestDuration, rounds]);
 
   const exerciseCount = useMemo(() => {
-    return exercises.filter((exercise) => exercise.type !== "rest").length;
-  }, [exercises]);
+    return exercises.length * rounds;
+  }, [exercises, rounds]);
 
   return (
     <Card>

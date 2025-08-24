@@ -8,7 +8,6 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { observer } from "mobx-react-lite";
-import type { TTrainingExercise } from "../../../types/types";
 import {
   ArrowDownCircleIcon,
   ArrowUpCircleIcon,
@@ -18,35 +17,34 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { trainingConstructorStore } from "../services/training-constructor-store";
-import { useMemo } from "react";
-import classNames from "classnames";
+import { TExerciseType, type TExercise } from "../../../types/types";
 
 type TProps = {
-  exercise: TTrainingExercise;
+  exercise: TExercise;
 };
 
 export const TrainingConstructorExercise = observer<TProps>((props) => {
   const { exercise } = props;
 
-  const { name, repeats, duration, type, id } = exercise;
+  const { name, type, id } = exercise;
 
-  const title = useMemo(() => {
-    if (type === "repeatable") {
-      return `${name}, ${repeats} повторений`;
+  const getTitle = () => {
+    if (type === TExerciseType.Quantitative) {
+      return `${name}, ${exercise.repeats} повторений`;
     }
 
-    if (type === "timed" || type === "rest") {
-      return `${name}, ${duration} секунд`;
+    if (type === TExerciseType.Timed) {
+      return `${name}, ${exercise.duration} секунд`;
     }
 
     return name;
-  }, [duration, name, repeats, type]);
+  };
 
   return (
-    <Card className={classNames({ "bg-success-50": type === "rest" })}>
+    <Card>
       <CardBody className="flex flex-row gap-2 py-1 justify-between">
         <div className="flex flex-row gap-2 text-l font-medium items-center">
-          {title}
+          {getTitle()}
         </div>
 
         <Dropdown>

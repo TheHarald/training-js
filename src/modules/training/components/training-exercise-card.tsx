@@ -1,25 +1,25 @@
 import { observer } from "mobx-react-lite";
-import type { TTrainingExercise } from "../../../types/types";
 import { Card, CardBody } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { trainingSettingsStore } from "../../settings/services/training-settings-store";
 import { trainingStore } from "../services/training-store";
+import { TExerciseType, type TExercise } from "../../../types/types";
 
 type TProps = {
-  exercise: TTrainingExercise;
+  exercise: TExercise;
 };
 
 export const TrainingExerciseCard = observer<TProps>((props) => {
   const { exercise } = props;
-  const { name, duration, repeats, type } = exercise;
+  const { name, type } = exercise;
   const { autoRunExercises } = trainingSettingsStore.settings;
 
-  const [timeLeft, setTimeLeft] = useState(duration);
+  const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
-    setTimeLeft(duration); // Сброс времени при изменении упражнения
+    if (type === TExerciseType.Quantitative) return;
 
-    if (type === "repeatable") return;
+    setTimeLeft(exercise.duration); // Сброс времени при изменении упражнения
 
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -37,7 +37,7 @@ export const TrainingExerciseCard = observer<TProps>((props) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [exercise]); // Зависимость от duration, чтобы перезапускать при смене упражнения
+  }, [autoRunExercises, exercise, type]); // Зависимость от duration, чтобы перезапускать при смене упражнения
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -45,22 +45,28 @@ export const TrainingExerciseCard = observer<TProps>((props) => {
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  const showTimer = type === "timed" || type === "rest";
-
   return (
     <Card>
       <CardBody className="flex flex-col gap-2">
         <div className="font-bold text-3xl">{name}</div>
 
-        {showTimer && (
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-mono">{formatTime(timeLeft)}</div>
-          </div>
-        )}
+        {(() => {
+          if (type === TExerciseType.Quantitative) {
+            return (
+              <div className="font-medium text-gray-600">
+                Повторений: {exercise.repeats}
+              </div>
+            );
+          }
 
-        {type === "repeatable" && (
-          <div className="font-medium text-gray-600">Повторений: {repeats}</div>
-        )}
+          if (type === TExerciseType.Timed || type === TExerciseType.Rest) {
+            return (
+              <div className="flex items-center justify-between">
+                <div className="text-2xl font-mono">{formatTime(timeLeft)}</div>
+              </div>
+            );
+          }
+        })()}
       </CardBody>
     </Card>
   );

@@ -1,23 +1,24 @@
 import { makeAutoObservable } from "mobx";
-import type {
-  TTrainingExercise,
-  TTrainingExerciseType,
-  TTrainingPlan,
-} from "../../../types/types";
 import {
-  defaultExerciseDuration,
-  defaultTrainingExercise,
+  defaultDuration,
+  defaultQuantitativeExercise,
+  defaultTimedExercise,
   defaultTTrainingPlan,
   newTrainingPlanId,
 } from "./constants";
 import { trainingStorageHelper } from "../../../helpers/training-storage-helper";
 import { navigationStore } from "../../navigation/services/navigation-store";
 import { AppRoutes } from "../../navigation/services/types";
+import {
+  TExerciseType,
+  type TExercise,
+  type TWorkoutPlan,
+} from "../../../types/types";
 
 class TrainingConstructorStore {
   isEditing: boolean = false;
-  editingExercise: TTrainingExercise = defaultTrainingExercise;
-  trainingPlan: TTrainingPlan = defaultTTrainingPlan;
+  editingExercise: TExercise = defaultTimedExercise;
+  trainingPlan: TWorkoutPlan = defaultTTrainingPlan;
 
   constructor() {
     makeAutoObservable(this);
@@ -33,17 +34,27 @@ class TrainingConstructorStore {
     );
   }
 
+  public setExerciseRestDuration(duration: number) {
+    this.trainingPlan.exerciseRestDuration = duration;
+  }
+  public setRoundsRestDuration(duration: number) {
+    this.trainingPlan.roundsRestDuration = duration;
+  }
+
+  public setRoundsCount(count: number) {
+    this.trainingPlan.rounds = count;
+  }
+
   public addTrainingPlan() {
     const trainings = trainingStorageHelper.get();
-    let newItems: TTrainingPlan[] = [];
+    let newItems: TWorkoutPlan[] = [];
 
     // new
     if (this.trainingPlan.id === newTrainingPlanId) {
       newItems = [
         ...trainings,
         {
-          name: this.trainingPlan.name,
-          exercises: this.trainingPlan.exercises,
+          ...this.trainingPlan,
           id: crypto.randomUUID(),
         },
       ];
@@ -51,9 +62,7 @@ class TrainingConstructorStore {
       newItems = trainings.map((item) => {
         if (item.id === this.trainingPlan.id) {
           return {
-            ...item,
-            name: this.trainingPlan.name,
-            exercises: this.trainingPlan.exercises,
+            ...this.trainingPlan,
           };
         }
 
@@ -72,12 +81,12 @@ class TrainingConstructorStore {
     this.trainingPlan.name = name;
   }
 
-  public editExercise(exercise: TTrainingExercise) {
+  public editExercise(exercise: TExercise) {
     this.isEditing = true;
     this.editingExercise = { ...exercise };
   }
 
-  public moveExercise(exercise: TTrainingExercise, direction: "up" | "down") {
+  public moveExercise(exercise: TExercise, direction: "up" | "down") {
     const index = this.trainingPlan.exercises.findIndex(
       (item) => item.id === exercise.id
     );
@@ -114,22 +123,8 @@ class TrainingConstructorStore {
   public cancelEditing() {
     this.isEditing = false;
     this.editingExercise = {
-      ...defaultTrainingExercise,
+      ...defaultTimedExercise,
     };
-  }
-
-  public setExerciseType(type: TTrainingExerciseType) {
-    this.editingExercise.type = type;
-  }
-
-  public addRestExercise() {
-    this.trainingPlan.exercises.push({
-      id: crypto.randomUUID(),
-      type: "rest",
-      duration: 60,
-      repeats: 1,
-      name: "Отдых",
-    });
   }
 
   public confirmEditing() {
@@ -145,7 +140,7 @@ class TrainingConstructorStore {
       this.trainingPlan.exercises.splice(index, 1, this.editingExercise);
     }
 
-    this.editingExercise = { ...defaultTrainingExercise };
+    this.editingExercise = { ...defaultTimedExercise };
   }
 
   public resetConstructor() {
@@ -153,7 +148,7 @@ class TrainingConstructorStore {
       ...defaultTTrainingPlan,
     };
     this.editingExercise = {
-      ...defaultTrainingExercise,
+      ...defaultTimedExercise,
     };
   }
 
@@ -163,24 +158,40 @@ class TrainingConstructorStore {
 
   public setExerciseDuration(duration: number) {
     if (Number.isNaN(duration)) {
-      duration = defaultExerciseDuration;
+      duration = defaultDuration;
     }
 
-    this.editingExercise.duration = duration;
+    if (this.editingExercise.type === TExerciseType.Timed) {
+      this.editingExercise.duration = duration;
+    }
   }
 
   public setExerciseRepeats(repeats: number) {
-    this.editingExercise.repeats = repeats;
+    if (this.editingExercise.type === TExerciseType.Quantitative) {
+      this.editingExercise.repeats = repeats;
+    }
   }
 
-  public addExercise() {
+  public addExercise(type: TExerciseType) {
     this.isEditing = true;
-    this.editingExercise = {
-      ...defaultTrainingExercise,
-      repeats: 20,
-      duration: defaultExerciseDuration,
-      id: crypto.randomUUID(),
-    };
+
+    if (type === TExerciseType.Quantitative) {
+      this.editingExercise = {
+        ...defaultQuantitativeExercise,
+        id: crypto.randomUUID(),
+      };
+
+      return;
+    }
+
+    if (type === TExerciseType.Timed) {
+      this.editingExercise = {
+        ...defaultTimedExercise,
+        id: crypto.randomUUID(),
+      };
+
+      return;
+    }
   }
 
   public deleteExercise(id: string) {
@@ -193,14 +204,14 @@ class TrainingConstructorStore {
     this.trainingPlan.exercises.splice(index, 1);
   }
 
-  public duplicateExercise(exercise: TTrainingExercise) {
+  public duplicateExercise(exercise: TExercise) {
     this.trainingPlan.exercises.push({
       ...exercise,
       id: crypto.randomUUID(),
     });
   }
 
-  public setTrainingPlan(training: TTrainingPlan) {
+  public setTrainingPlan(training: TWorkoutPlan) {
     this.trainingPlan = { ...training };
   }
 }
