@@ -98,7 +98,7 @@ export const TrainingConstructorExerciseList = observer(() => {
           placeholder="Выберите длительность"
           selectedKeys={selectedExerciseRestDuration}
           onSelectionChange={([value]) => {
-            trainingConstructorStore.setExerciseDuration(Number(value));
+            trainingConstructorStore.setExerciseRestDuration(Number(value));
           }}
         >
           {durations.map((duration) => (
