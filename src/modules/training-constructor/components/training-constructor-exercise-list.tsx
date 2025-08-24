@@ -19,7 +19,7 @@ import {
   PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { durations } from "../services/constants";
+import { defaultDuration, durations } from "../services/constants";
 import { TExerciseType } from "../../../types/types";
 
 export const TrainingConstructorExerciseList = observer(() => {
@@ -98,7 +98,9 @@ export const TrainingConstructorExerciseList = observer(() => {
           placeholder="Выберите длительность"
           selectedKeys={selectedExerciseRestDuration}
           onSelectionChange={([value]) => {
-            trainingConstructorStore.setExerciseRestDuration(Number(value));
+            trainingConstructorStore.setExerciseRestDuration(
+              value ? Number(value) : defaultDuration
+            );
           }}
         >
           {durations.map((duration) => (
@@ -112,7 +114,9 @@ export const TrainingConstructorExerciseList = observer(() => {
           placeholder="Выберите длительность"
           selectedKeys={selectedRoundsRestDuration}
           onSelectionChange={([value]) => {
-            trainingConstructorStore.setRoundsRestDuration(Number(value));
+            trainingConstructorStore.setRoundsRestDuration(
+              value ? Number(value) : defaultDuration
+            );
           }}
         >
           {durations.map((duration) => (
