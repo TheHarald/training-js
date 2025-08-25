@@ -2,9 +2,10 @@ import { observer } from "mobx-react-lite";
 import { statisticsStore } from "./services/statistics-store";
 import { StatisticsWeightGraphic } from "./components/statistics-weight-graphic";
 import { Button, ScrollShadow } from "@heroui/react";
+import TrainingCalendar from "./components/TrainingCalendar";
 
 export const StatisticsModule = observer(() => {
-  const { weights } = statisticsStore;
+  const { weights, trainingDays } = statisticsStore;
 
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
@@ -14,6 +15,7 @@ export const StatisticsModule = observer(() => {
           <Button onPress={() => statisticsStore.setOpen(true)} color="primary">
             Заполнить показания веса
           </Button>
+          <TrainingCalendar trainingDays={trainingDays} />
         </div>
       </ScrollShadow>
     </div>
