@@ -92,9 +92,9 @@ export const TrainingConstructorExerciseList = observer(() => {
         </Button>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-row gap-2">
         <Select
-          label="Отдых между упражнениями, сек"
+          label="Отдых упражнения"
           placeholder="Выберите длительность"
           selectedKeys={selectedExerciseRestDuration}
           onSelectionChange={([value]) => {
@@ -110,7 +110,7 @@ export const TrainingConstructorExerciseList = observer(() => {
           ))}
         </Select>
         <Select
-          label="Отдых между кругами, сек"
+          label="Отдых круга"
           placeholder="Выберите длительность"
           selectedKeys={selectedRoundsRestDuration}
           onSelectionChange={([value]) => {
@@ -127,6 +127,7 @@ export const TrainingConstructorExerciseList = observer(() => {
         </Select>
 
         <NumberInput
+          className="w-fit"
           minValue={1}
           label={"Круги"}
           value={rounds}
