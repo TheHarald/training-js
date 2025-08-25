@@ -9,6 +9,7 @@ import {
   type IRestItem,
   type TWorkoutPlan,
 } from "../../../types/types";
+import { statisticsStore } from "../../statistics/services/statistics-store";
 
 class TrainingStore {
   trainings: TWorkoutPlan[] = [];
@@ -160,6 +161,11 @@ class TrainingStore {
     navigationStore.setIsDisabledNavigation(false);
     this.playedTraining = undefined;
     this.currentExerciseId = undefined;
+  }
+
+  public finishTraining() {
+    statisticsStore.addTrainingDate(Date.now());
+    this.stopTraining();
   }
 
   public goToNextExercise() {

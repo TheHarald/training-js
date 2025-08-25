@@ -1,18 +1,26 @@
 import { makeAutoObservable } from "mobx";
 import { TypedStorage } from "../../../utils/storage";
-import { trainingStatisticsKey } from "../../../constants";
+import {
+  trainingDatesStatisticsKey,
+  trainingWeightsStatisticsKey,
+} from "../../../constants";
 import type { TStatisticWeightData } from "./statistic-types";
-import { weightRequestDelayMs } from "./staticstic-constants";
+import { weightRequestDelayMs } from "./statistic-constants";
 import { trainingSettingsStore } from "../../settings/services/training-settings-store";
 
-const statisticsStorage = new TypedStorage<TStatisticWeightData[]>(
-  trainingStatisticsKey,
+const statisticsWeightStorage = new TypedStorage<TStatisticWeightData[]>(
+  trainingWeightsStatisticsKey,
   []
 );
 
+const trainingDatesStatistics = new TypedStorage<number[]>(
+  trainingDatesStatisticsKey,
+  []
+);
 class StatisticsStore {
-  weight: number = statisticsStorage.get().at(-1)?.weight ?? 50;
-  weights: TStatisticWeightData[] = statisticsStorage.get();
+  weight: number = statisticsWeightStorage.get().at(-1)?.weight ?? 50;
+  weights: TStatisticWeightData[] = statisticsWeightStorage.get();
+  trainingDays: number[] = trainingDatesStatistics.get();
   weightModalOpen = false;
 
   constructor() {
@@ -25,6 +33,11 @@ class StatisticsStore {
 
   public setOpen(open: boolean): void {
     this.weightModalOpen = open;
+  }
+
+  public addTrainingDate(date: number) {
+    this.trainingDays.push(date);
+    trainingDatesStatistics.set(this.trainingDays);
   }
 
   public tryRequestWeight() {
@@ -52,7 +65,7 @@ class StatisticsStore {
 
     this.weights.push(weightData);
 
-    statisticsStorage.set(this.weights);
+    statisticsWeightStorage.set(this.weights);
 
     this.weightModalOpen = false;
   }

@@ -55,7 +55,7 @@ export const TrainingScreen = observer(() => {
               {nextExercise === undefined ? (
                 <Button
                   color="success"
-                  onPress={() => trainingStore.stopTraining()}
+                  onPress={() => trainingStore.finishTraining()}
                 >
                   Завершить тренировку
                 </Button>
