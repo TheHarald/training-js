@@ -40,6 +40,15 @@ class StatisticsStore {
     trainingDatesStatistics.set(this.trainingDays);
   }
 
+  public deleteTrainingDate(date: number) {
+    const index = this.trainingDays.indexOf(date);
+
+    if (index === -1) return;
+
+    this.trainingDays.splice(index, 1);
+    trainingDatesStatistics.set(this.trainingDays);
+  }
+
   public tryRequestWeight() {
     if (!trainingSettingsStore.settings.isRequestWeight) return;
 
