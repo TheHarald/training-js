@@ -94,7 +94,7 @@ export const TrainingConstructorExerciseList = observer(() => {
 
       <div className="flex flex-row gap-2">
         <Select
-          label="Отдых упражнения"
+          label="Отдых упр."
           placeholder="Выберите длительность"
           selectedKeys={selectedExerciseRestDuration}
           onSelectionChange={([value]) => {
