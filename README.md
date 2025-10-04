@@ -2,9 +2,11 @@
 
 Приложение для составления собственного плана тренировок
 
-![Страница тренировок](images/1.jpg)
-![Тренировка](images/2.jpg)
-![Конструктор тренировок](images/3.jpg)
+<center>
+    <img src="images/1.jpg" width="30%" />
+    <img src="images/2.jpg" width="30%" />
+    <img src="images/3.jpg" width="30%" />
+</center>
 
 ## Используемые библиотеки
 
