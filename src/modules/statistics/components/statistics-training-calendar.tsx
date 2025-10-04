@@ -65,6 +65,7 @@ const StatisticsTrainingCalendar = observer<TrainingCalendarProps>(
       }
 
       return days;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentDate, trainingDays.length]);
 
     const goToPreviousMonth = () => {
